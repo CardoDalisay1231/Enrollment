@@ -1,0 +1,612 @@
+@import url("https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@300;400;500;600;700;800;900&family=Newsreader:ital,opsz,wght@0,6..72,500;1,6..72,500&family=Roboto+Slab:wght@100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Rubik+Mono+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap");
+
+body,
+html,
+.containers {
+  margin: 0;
+  background-color: #d9d9d9d9;
+}
+
+
+* {
+  margin: 0;
+  padding: 0;
+}
+.header {
+  height: 126px;
+  text-align: center;
+  background: #177054;
+  color: white;
+  display: flex;
+  align-items: center; /* Aligns items vertically */
+  padding-left: 100px;
+}
+.header p {
+  padding: 0;
+  margin-top: 20px;
+  text-align: left;
+  font-family: "Rubik Mono One", monospace;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 30px;
+  text-shadow: 2px 2px 2px #000000;
+}
+.logo {
+  width: 101px; /* Adjust size as needed */
+  height: auto; /* Maintain aspect ratio */
+  margin-right: 10px; /* Space between image and title */
+}
+/*NAVBAR*/
+.desktop-nav {
+  justify-content: space-around;
+  align-items: center;
+  height: 10vh;
+  width: 100%;
+  background-color: #018040;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.navbar .nav-name {
+  font-size: 40px;
+  font-family: "Inknut Antiqua", serif;
+  font-weight: 400;
+  font-style: normal;
+  color: white;
+}
+
+.navigation .nav-link {
+  color: #ffffff;
+  gap: 2rem;
+  list-style: none;
+  font-size: 1.5rem;
+  font-family: "Roboto Slab", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* MODALSS */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 1000; /* Ensure modal is on top */
+}
+
+.modal-contents {
+  text-align: center;
+  z-index: 1001;
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  box-shadow: 5px 6px #1d4d31;
+  width: 40%;
+  border-radius: 20px;
+}
+
+.modal-headers {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #dee2e6;
+  margin-bottom: 10px;
+}
+
+.close-button {
+  width: 50px;
+  float: right;
+  border: none;
+  background-color: rgb(182, 13, 13);
+  font-size: 28px;
+  font-weight: bold;
+  font-size: 1.5rem;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.close-button:hover {
+  background-color: #1d4d31;
+  color: red;
+  text-decoration: none;
+  cursor: pointer;
+}
+.modal-headers h5 {
+  font-family: "Rubik Mono One", monospace;
+  font-weight: 300;
+  font-style: normal;
+  color: rgb(182, 13, 13);
+  font-size: 2rem;
+}
+.modal-bodys p {
+  font-family: "Inconsolata", monospace; /* Changed font-family to match Course.css */
+  font-weight: 400;
+  font-style: normal;
+  font-size: 1.5rem;
+}
+
+/* PROFILE SECTION */
+
+#profile {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  height: 90vh;
+}
+
+.apply-now {
+  width: 192px;
+  background-color: #007b55;
+  color: white;
+  border: 2px solid #000000;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 10px;
+  font-family: "Rubik Mono One", monospace;
+  font-weight: 400;
+  font-style: normal;
+  justify-content: center;
+}
+
+.apply-now:hover {
+  background-color: #004b33 !important;
+  color: white !important;
+}
+
+.section__pic-container {
+  display: flex;
+  height: 300px;
+  width: 300px;
+  margin: auto 0;
+}
+
+.section__text {
+  align-self: center;
+  text-align: center;
+}
+
+.section__text__p1 {
+  font-family: "Roboto", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  text-align: left;
+  font-size: 2rem;
+  text-shadow: 2px 2px 2px #3c9e65;
+  color: rgb(0, 0, 0);
+}
+
+.section__text__p2 {
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-size: 3rem;
+  text-align: left;
+  font-family: "Rubik Mono One", monospace;
+  font-size: 4rem;
+  font-style: normal;
+  font-weight: 400;
+  color: rgb(0, 0, 0);
+  margin-bottom: 30px;
+  text-shadow: 2px 2px 2px #3c9e65;
+}
+
+#about {
+  position: relative;
+  justify-content: center;
+}
+
+.about-containers {
+  gap: 2rem;
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+  padding: 20px;
+}
+
+.about-details-container {
+  justify-content: center;
+  flex-direction: column;
+}
+
+.about-containers,
+.about-details-container {
+  display: flex;
+}
+
+.details-container {
+  padding: 1.5rem;
+  flex: 1;
+  background: #e7f87e4d;
+  border-radius: 2rem;
+  text-align: center;
+  box-shadow: 4px 4px 3px #00000040;
+}
+.tittle-about {
+  font-family: "Roboto Slab", serif;
+  font-weight: 600;
+  font-style: normal;
+  font-size: 45px;
+  text-align: center;
+}
+.details-container h3 {
+  font-family: "Roboto Slab", serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 30px;
+}
+
+.details-container p {
+  font-family: "Inconsolata", monospace; /* Changed font-family to match Course.css */
+  font-weight: 400;
+  font-style: normal;
+  font-size: 20px;
+}
+
+.section-container {
+  gap: 4rem;
+  height: 80%;
+}
+
+#Course {
+  position: relative;
+  justify-content: center;
+}
+
+.course-content {
+  padding: 50px 200px;
+  color: rgb(0, 0, 0);
+  margin-top: 5vh;
+}
+.details-container.course {
+  background: #17705433;
+  border-radius: 2rem;
+  text-align: center;
+  box-shadow: 4px 4px 3px 0px #00000040;
+}
+.logos {
+  width: 40%;
+}
+
+.details-container.course p {
+  font-family: "Inconsolata", monospace; /* Changed font-family to match Course.css */
+  font-weight: 400;
+  font-style: normal;
+  font-size: 25px;
+}
+
+/* Login/Signup forms */
+.login-signup-form {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  min-height: 80vh; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+}
+
+.login-signup-form .form {
+  width: 500px;
+  position: relative;
+  z-index: 1;
+  background: #ffffff;
+  padding: 34px;
+  border-radius: 10px;
+  box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.2);
+}
+
+.login-signup-form .form h2 {
+  font-size: 28px;
+  color: #333333;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.login-signup-form .form input,
+.login-signup-form .form select {
+  margin-bottom: 15px;
+  font-size: 20px;
+}
+
+.login-signup-form .form label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.login-signup-form .form button {
+  background-color: #3c9e65;
+  color: #ffffff;
+  padding: 10px 20px;
+  border: none;
+  width: 100%;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.login-signup-form .form button:hover {
+  background-color: #2c7248;
+}
+
+.login-signup-form .form .message {
+  margin: 15px 0 0;
+  color: #b3b3b3;
+  font-size: 18px;
+  text-align: center;
+}
+
+.login-signup-form .form .message a {
+  color: #3c9e65;
+  text-decoration: none;
+}
+
+.login-signup-form .form a :hover {
+  background-color: #3c9e6548;
+}
+input {
+  outline: 0;
+  background: #ffffff;
+  width: 100%;
+  border: 2px solid #e6e6e6;
+  margin: 0 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
+  transition: all 0.3s;
+  border-radius: 10px;
+}
+
+input:focus {
+  border-color: #177054;
+}
+select {
+  outline: 0;
+  background: #ffffff;
+  width: 100%;
+  border: 2px solid #e6e6e6;
+  margin: 0 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
+  transition: all 0.3s;
+  border-radius: 10px;
+}
+h2,
+.form-section,
+label,
+.form-row,
+input,
+button {
+  position: relative; /* Position elements relative to their container */
+  z-index: 1; /* Bring content above the blurred background */
+}
+.form-section {
+  margin-bottom: 20px;
+}
+.form-section input {
+  margin-bottom: 10px;
+}
+.form-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.button-container button {
+  width: 90px;
+  padding: 10px;
+  font-size: 18px;
+  background-color: #3c9e65;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: auto;
+  text-align: center;
+}
+.button-container button:hover {
+  background-color: #296d45;
+}
+
+/* For CS forms */
+.regform.cs-form::before {
+  background-image: url("./images/cs.png");
+}
+
+/* For IT forms */
+.regform.it-form::before {
+  background-image: url("./images/it.png");
+  background-size: 400px;
+}
+
+/* Added from formStyles.scss */
+.regform {
+  position: relative; /* Make sure the container is positioned */
+  margin-top: 25px !important ;
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #ffffff;
+  margin-bottom: 25px !important ;
+}
+.regform::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url(./images/cs.png);
+  background-repeat: no-repeat;
+  background-size: 500px;
+  background-position: center; /* Adjust size as needed (use contain or specific dimensions) */
+  filter: blur(8px); /* Adjust the blur intensity */
+  z-index: 0; /* Send the background behind other content */
+}
+
+.form-title {
+  position: relative; /* Position elements relative to their container */
+  z-index: 1;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  font-family: Roboto Slab;
+  font-size: 35px;
+  font-weight: 400;
+  line-height: 23.74px;
+  text-align: center;
+  
+}
+
+.regform .form-section {
+  position: relative;
+  margin-top: 20px;
+}
+
+.regform .form-group {
+  position: relative; /* Ensure groups are above the background */
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.regform .form-group label {
+  position: relative; /* Ensure labels are above the background */
+  z-index: 1;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.regform .form-group .name-fields {
+  display: flex;
+  gap: 10px;
+}
+
+.regform .form-group .name-fields input {
+  width: calc(25% - 10px);
+}
+
+.regform .form-group input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.regform .grades-section table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.regform .grades-section table th,
+.regform .grades-section table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+.regform .grades-section table td input {
+  width: 100%;
+  padding: 5px;
+  border: none;
+  outline: none;
+}
+
+.regform .upload-section {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.regform .upload-section .file-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.file-upload label {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.regform .upload-section .file-upload input {
+  border: none;
+  background-color: #f1f1f1;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.regform h2 {
+  font-family: Roboto Slab;
+  font-size: 35px;
+  font-weight: 400;
+  line-height: 23.74px;
+  text-align: center;
+  
+}
+
+
+/* Merged from Form.css */
+.form-container.cs-form::before {
+  background-image: url('./images/cs.png');
+}
+
+/* For IT forms */
+.form-container.it-form::before {
+  background-image: url('./images/it.png');
+  background-size: 400px;
+}
+
+.form-container {
+  position: relative; /* Make sure the container is positioned */
+  max-width: 900px;
+  margin: auto;
+  margin-top: 25px;
+  padding: 20px;
+  background-color: rgb(255, 255, 255); /* Semi-transparent background */
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  overflow: hidden; /* Hide overflow for pseudo-element */
+}
+.form-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url(./images/cs.png);
+  background-repeat: no-repeat;
+  background-size: 500px;
+  background-position: center;
+  filter: blur(8px); /* Adjust the blur intensity */
+  z-index: 0; /* Send the background behind other content */
+}
+
+.name-fields {
+  display: flex;
+  gap: 10px;
+}
+
+.name-fields input {
+  width: calc(25% - 10px);
+}
+
+.form-container input{
+  background-color: rgba(255, 255, 255, 0.644);
+}
+.regform input{
+  background-color: rgba(255, 255, 255, 0.644);
+}

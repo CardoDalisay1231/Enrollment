@@ -1,0 +1,175 @@
+@media screen and (max-width: 1400px) {
+  #profile {
+    height: 83vh;
+    margin-bottom: 6rem;
+  }
+  .about-containers {
+    flex-wrap: wrap;
+  }
+  #contact,
+  #projects {
+    height: fit-content;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  #desktop-nav {
+    display: none;
+  }
+  #hamburger-nav {
+    display: flex;
+  }
+  #experience,
+  .experience-details-container {
+    margin-top: 2rem;
+  }
+  #profile,
+  .section-container {
+    display: block;
+  }
+  .arrow {
+    display: none;
+  }
+  section,
+  .section-container {
+    height: fit-content;
+  }
+  .section__pic-container {
+    width: 275px;
+    height: 275px;
+    margin: 0 auto 2rem;
+  }
+  .about-containers {
+    margin-top: 0;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  #about, #Course {
+    height: fit-content;
+  }
+  #contact,
+  footer {
+    height: 40vh;
+  }
+  #profile {
+    height: 83vh;
+    margin-bottom: 0;
+    margin-top: 100px;
+  }
+  article {
+    font-size: 1rem;
+  }
+  footer nav {
+    height: fit-content;
+    margin-bottom: 2rem;
+  }
+  .about-containers,
+  .contact-info-upper-container,
+  .btn-container {
+    flex-wrap: wrap;
+  }
+  .contact-info-container {
+    margin: 0;
+  }
+  .contact-info-container p,
+  .nav-links li a {
+    font-size: 1rem;
+  }
+  .experience-sub-title {
+    font-size: 1.25rem;
+  }
+  .logo {
+    font-size: 1.5rem;
+  }
+  .nav-links {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+  .section__pic-container {
+    display: none;
+  }
+  .section__text__p2 {
+    
+    font-size: 1.25rem;
+  }
+  .section__text__p1{
+    font-size: 1.5rem;
+    text-align: center;
+  }
+  .title,h1.tittle-about {
+    font-size: 2rem;
+    text-align: center;
+  }
+  .text-container {
+    text-align: justify;
+  }
+  .tittle-about{
+    font-family: "Roboto Slab", serif;
+    font-weight: 600;
+    font-style: normal;
+    font-size: 40px;
+    text-align: center;
+  }
+  .details-container h3{
+    font-family: "Roboto Slab", serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 25px;
+  }
+  
+  .details-container p {
+    font-family: "Inconsolata", monospace; /* Changed font-family to match Course.css */
+    font-weight: 400;
+    font-style: normal;
+    font-size: 15px;
+  }
+  .about-containers {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr); /* Arrange 3 elements in each row */
+  }
+  .course-content {
+    padding: 50px 20px;
+  }
+  .navbar .nav-name{
+    font-size: 25px;
+  }
+  .modal-headers {
+    padding: 1rem 0 2rem ;
+  }
+  .modal-contents {
+    width: 80%;
+  }
+  .modal-headers h5,
+.modal-bodys p {
+  font-size: 1.5rem;
+}
+.header {
+  padding-left: 20px;
+}
+.header p {
+  font-size: 17px;
+}
+.logo {
+  width: 81px; /* Adjust size as needed */
+}
+.login-signup-form{
+  width: 80%;
+  margin: auto;
+}
+.regform,.form-container {
+  width: 90%;
+  margin: auto;
+  font-size: 10px;
+  font-weight: bold;
+}
+.regform h2,.form-title{
+  font-size: 25px;
+}
+.form-container{
+  width: 90%;
+  margin: auto;
+  margin-top: 20px;
+}
+}
