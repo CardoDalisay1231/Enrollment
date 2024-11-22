@@ -4,12 +4,10 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import React from "react";
 import { Link } from "react-router-dom";
-import WarningModal from './WarningModal';
 export default function Dashboard() {
   return (
     <div className="containers">
-      <WarningModal/>
-      <Navbar collapseOnSelect expand="lg" className="desktop-nav">
+      <Navbar collapseOnSelect expand="lg" className="desktop-nav fixed-top">
         <Container>
           <Navbar className="nav-name"  >
             Enrollment System
@@ -18,17 +16,14 @@ export default function Dashboard() {
           <Navbar.Collapse id="responsive-navbar-nav" className="hamburger">
             <Nav className="me-auto"></Nav>
             <Nav className="navigation">
-            <Nav.Link className="navigation" href="#features">
+            <Nav.Link className="navigation" href="#profile">
                 Home
               </Nav.Link>
-              <Nav.Link className="navigation" href="#features">
+              <Nav.Link className="navigation" href="#about">
                 About
               </Nav.Link>
-              <Nav.Link className="navigation" href="#pricing">
+              <Nav.Link className="navigation" href="#Course">
                 Courses
-              </Nav.Link>
-              <Nav.Link className="navigation" href="#deets">
-                Admission
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>
@@ -36,30 +31,30 @@ export default function Dashboard() {
       </Navbar>
 
       <section id="profile">
-        <div class="section__text">
-          <p class="section__text__p1">Hello Welcome,</p>
-          <h1 class="title">
+        <div className="section__text">
+          <p className="section__text__p1">Hello Welcome,</p>
+          <h1 className="title">
             {" "}
             CAVITE STATE
             <br /> UNIVERSITY -<br />
             BACOOR CAMPUS
           </h1>
 
-          <div class="btn-container">
+          <div className="btn-container">
           <Link to="/login"><button className="apply-now">APPLY NOW</button></Link>
           </div>
         </div>
-        <div class="section__pic-container">
+        <div className="section__pic-container">
           <img src="./images/cvsu-logo.png" alt="John Doe profile picture" />
         </div>
       </section>
 
       <section id="about">
-        <h1 class="tittle-about">ABOUT</h1>
-        <div class="section-container">
-          <div class="about-details-container">
-            <div class="about-containers">
-              <div class="details-container">
+        <h1 className="tittle-about">ABOUT</h1>
+        <div className="section-container">
+          <div className="about-details-container">
+            <div className="about-containers">
+              <div className="details-container">
                 <h3>MANDATE</h3>
                 <p>
                   Section 2 of Republic Act No. 8468 “An Act Converting the Don
@@ -72,7 +67,7 @@ export default function Dashboard() {
                   services, and provide progressive leadership in these areass.”
                 </p>
               </div>
-              <div class="details-container">
+              <div className="details-container">
                 <h3>VISION</h3>
                 <p>
                   The premier university in historic Cavite globally recognized
@@ -80,7 +75,7 @@ export default function Dashboard() {
                   innovation and sustainable community engagement.
                 </p>
               </div>
-              <div class="details-container">
+              <div className="details-container">
                 <h3>MISSION</h3>
                 <p>
                   Cavite State University shall provide excellent, equitable and
@@ -89,7 +84,7 @@ export default function Dashboard() {
                   and development activities.
                 </p>
               </div>
-              <div class="details-container">
+              <div className="details-container">
                 <h3>HISTORY</h3>
                 <p>
                   Cavite State University (CvSU) began as a small school in 1906
