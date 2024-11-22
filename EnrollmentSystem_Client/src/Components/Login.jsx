@@ -1,12 +1,14 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { Link,useNavigate } from "react-router-dom";
+
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("student"); // Default role
+  const [role, setRole] = useState("student");
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false); // Add a state for success message
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -21,14 +23,17 @@ export default function Login() {
 
       // Handle successful login
       console.log("Login successful:", response.data);
-      localStorage.setItem("token", response.data.token); // Save token
+      localStorage.setItem("token", response.data.token);
+      setSuccess(true); // Set success message
+      setError(null);
       
+      navigate("/"); // Replace with actual path
     } catch (err) {
       // Handle error
-      console.error("Login failed:", err.response.data);
+      
       setError(err.response.data.message || "Invalid credentials");
+      setSuccess(false);
     }
-    
   };
 
   return (
@@ -62,6 +67,7 @@ export default function Login() {
               </select>
               <button className="btn btn-block">Login</button>
               {error && <p className="error-message">{error}</p>}
+              {success && <p className="success-message">Login successful!</p>} {/* Display success */}
               <p className="message">
                 Not Registered? <Link to="/register">Create a new account</Link>
               </p>
@@ -72,3 +78,4 @@ export default function Login() {
     </div>
   );
 }
+

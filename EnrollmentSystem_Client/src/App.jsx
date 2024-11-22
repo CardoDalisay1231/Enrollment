@@ -21,7 +21,7 @@ import Dashboard from './Components/Dashboard';
 
 function App() {
   return (
-    <Router basename="/Enrollment-System/">
+    <Router >
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/login" element={<Login />} />
