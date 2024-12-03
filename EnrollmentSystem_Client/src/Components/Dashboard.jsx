@@ -1,4 +1,3 @@
-import '../index.css'
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -9,14 +8,12 @@ export default function Dashboard() {
     <div className="containers">
       <Navbar collapseOnSelect expand="lg" className="desktop-nav fixed-top">
         <Container>
-          <Navbar className="nav-name"  >
-            Enrollment System
-          </Navbar>
+          <Navbar className="nav-name">Enrollment System</Navbar>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav" className="hamburger">
             <Nav className="me-auto"></Nav>
             <Nav className="navigation">
-            <Nav.Link className="navigation" href="#profile">
+              <Nav.Link className="navigation" href="#profile">
                 Home
               </Nav.Link>
               <Nav.Link className="navigation" href="#about">
@@ -24,6 +21,9 @@ export default function Dashboard() {
               </Nav.Link>
               <Nav.Link className="navigation" href="#Course">
                 Courses
+              </Nav.Link>
+              <Nav.Link className="navigation" href="#Course">
+                Admission
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>
@@ -34,14 +34,15 @@ export default function Dashboard() {
         <div className="section__text">
           <p className="section__text__p1">Hello Welcome,</p>
           <h1 className="title">
-            {" "}
             CAVITE STATE
             <br /> UNIVERSITY -<br />
             BACOOR CAMPUS
           </h1>
 
           <div className="btn-container">
-          <Link to="/login"><button className="apply-now">APPLY NOW</button></Link>
+            <Link to="/login">
+              <button className="apply-now">APPLY NOW</button>
+            </Link>
           </div>
         </div>
         <div className="section__pic-container">
@@ -101,38 +102,65 @@ export default function Dashboard() {
       </section>
 
       <section id="Course" className="course-content">
-      <h1 className="tittle-about">COURSE</h1>
-      <div className="section-container">
-        <div className="about-details-container">
-          <div className="about-containers course">
-            <div className="details-container course">
-              <h3>
-                <img
-                  className="logos"
-                  src="./images/cs.png"
-                  alt="Cavite State University Logo"
-                />
-              </h3>
-              <br />
-              <p>CvSU Bacoor - Alliance of Computer Scientist</p>
-            </div>
-            <div className="details-container course">
-              <h3><img
-                  className="logos"
-                  src="./images/it.png"
-                  alt="Cavite State University Logo"
-                /></h3>
-              <br />
-              <p>
-              CvSU-Bacoor: Information Technology Society 
-              </p>
+        <h1 className="tittle-about">COURSE</h1>
+        <div className="section-container">
+          <div className="about-details-container">
+            <div className="about-containers course">
+              <div className="details-container course">
+                <h3>
+                  <img
+                    className="logos"
+                    src="./images/cs.png"
+                    alt="Cavite State University Logo"
+                  />
+                </h3>
+                <br />
+                <p>CvSU Bacoor - Alliance of Computer Scientist</p>
+              </div>
+              <div className="details-container course">
+                <h3>
+                  <img
+                    className="logos"
+                    src="./images/it.png"
+                    alt="Cavite State University Logo"
+                  />
+                </h3>
+                <br />
+                <p>CvSU-Bacoor: Information Technology Society </p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+      <section id="admission" className="course-content py-5">
+        <div className="container">
+          <h1 className="tittle-about text-center mb-5">ADMISSION</h1>
+          <div className="text-center">
+            <h1 className="tittles mb-3">APPLICATION FOR ADMISSION</h1>
+            <h2 className="titttle">
+              FIRST SEMESTER SY 2025-2026
+              <br />
+              ARE NOW OPEN
+            </h2>
 
+            <p className="application-details mt-4">
+              <b>
+                APPLICATION for FIRST SEMESTER S.Y. 2025-2026 in CAVITE STATE
+                UNIVERSITY begins on NOVEMBER 18, 2024. Start of Application:
+                NOVEMBER 18, 2024 CvSU - Bacoor Campus
+              </b>
+            </p>
+          </div>
+        </div>
+      </section>
 
+      {/* Footer Section */}
+      <footer className="footer bg-success text-white text-center py-4"><br/>
+        <p>
+          &copy; 2024 Cavite State University - Bacoor Campus | All Rights
+          Reserved
+        </p>
+      </footer>
     </div>
   );
 }

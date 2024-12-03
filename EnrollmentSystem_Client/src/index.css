@@ -5,23 +5,30 @@ body,
 html,
 .containers {
   margin: 0;
-  background-color: #d9d9d9d9;
+  background-color: #d9d9d9a1;
 }
-
 
 * {
   margin: 0;
   padding: 0;
 }
+:root {
+  --header-height: 126px;
+}
 .header {
-  height: 126px;
-  text-align: center;
+  height: var(--header-height);
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1100;
   background: #177054;
   color: white;
   display: flex;
-  align-items: center; /* Aligns items vertically */
+  align-items: center;
   padding-left: 100px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
+
 .header p {
   padding: 0;
   margin-top: 20px;
@@ -32,11 +39,13 @@ html,
   font-size: 30px;
   text-shadow: 2px 2px 2px #000000;
 }
+
 .logo {
   width: 101px; /* Adjust size as needed */
   height: auto; /* Maintain aspect ratio */
   margin-right: 10px; /* Space between image and title */
 }
+
 /*NAVBAR*/
 .desktop-nav {
   justify-content: space-around;
@@ -64,71 +73,6 @@ html,
   font-family: "Roboto Slab", serif;
   font-weight: 400;
   font-style: normal;
-}
-
-/* MODALSS */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.3);
-  z-index: 1000; /* Ensure modal is on top */
-}
-
-.modal-contents {
-  text-align: center;
-  z-index: 1001;
-  background-color: #fefefe;
-  margin: 15% auto;
-  padding: 20px;
-  box-shadow: 5px 6px #1d4d31;
-  width: 40%;
-  border-radius: 20px;
-}
-
-.modal-headers {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  border-bottom: 1px solid #dee2e6;
-  margin-bottom: 10px;
-}
-
-.close-button {
-  width: 50px;
-  float: right;
-  border: none;
-  background-color: rgb(182, 13, 13);
-  font-size: 28px;
-  font-weight: bold;
-  font-size: 1.5rem;
-  cursor: pointer;
-  border-radius: 5px;
-}
-.close-button:hover {
-  background-color: #1d4d31;
-  color: red;
-  text-decoration: none;
-  cursor: pointer;
-}
-.modal-headers h5 {
-  font-family: "Rubik Mono One", monospace;
-  font-weight: 300;
-  font-style: normal;
-  color: rgb(182, 13, 13);
-  font-size: 2rem;
-}
-.modal-bodys p {
-  font-family: "Inconsolata", monospace; /* Changed font-family to match Course.css */
-  font-weight: 400;
-  font-style: normal;
-  font-size: 1.5rem;
 }
 
 /* PROFILE SECTION */
@@ -188,8 +132,6 @@ html,
 }
 
 .title {
-  font-size: 3rem;
-  text-align: left;
   font-family: "Rubik Mono One", monospace;
   font-size: 4rem;
   font-style: normal;
@@ -197,6 +139,30 @@ html,
   color: rgb(0, 0, 0);
   margin-bottom: 30px;
   text-shadow: 2px 2px 2px #3c9e65;
+}
+.tittles {
+  font-family: "Rubik Mono One", monospace;
+  font-size: 3rem;
+  font-weight: 400;
+  color: rgb(0, 0, 0);
+  margin-bottom: 30px;
+  text-shadow: 2px 2px 2px #3c9e65;
+}
+
+.titttle {
+  font-family: "Rubik Mono One", monospace;
+  font-size: 2.5rem;
+  font-style: normal;
+  font-weight: 400;
+  color: rgb(0, 0, 0);
+  margin-bottom: 30px;
+  text-shadow: 2px 2px 2px #3c9e65;
+}
+.application-details {
+  font-family: "Roboto Slab", serif;
+  font-size: 1.8rem; /* Adjust to your preference */
+  color: rgb(0, 0, 0);
+  line-height: 1.5; /* Better line spacing for readability */
 }
 
 #about {
@@ -282,11 +248,28 @@ html,
   font-size: 25px;
 }
 
+.footer {
+  background-color: #3c9e65; /* Green background */
+  height: 100px;
+  color: white;
+  font-family: "Rubik Mono One", monospace;
+}
+
+.footer p {
+  font-size: 0.8rem; /* Adjust text size */
+  margin: 0;
+  padding: 0;
+}
+
+.footer .container {
+  max-width: 100%;
+}
+
 /* Login/Signup forms */
 .login-signup-form {
   padding-top: 20px;
   padding-bottom: 20px;
-  min-height: 80vh; 
+  min-height: 80vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -415,6 +398,13 @@ button {
   background-color: #296d45;
 }
 
+#register {
+  margin-top: 126px;
+}
+#login {
+  margin-top: 126px;
+}
+
 /* For CS forms */
 .regform.cs-form::before {
   background-image: url("./images/cs.png");
@@ -464,7 +454,6 @@ button {
   font-weight: 400;
   line-height: 23.74px;
   text-align: center;
-  
 }
 
 .regform .form-section {
@@ -554,18 +543,16 @@ button {
   font-weight: 400;
   line-height: 23.74px;
   text-align: center;
-  
 }
-
 
 /* Merged from Form.css */
 .form-container.cs-form::before {
-  background-image: url('./images/cs.png');
+  background-image: url("./images/cs.png");
 }
 
 /* For IT forms */
 .form-container.it-form::before {
-  background-image: url('./images/it.png');
+  background-image: url("./images/it.png");
   background-size: 400px;
 }
 
@@ -604,9 +591,267 @@ button {
   width: calc(25% - 10px);
 }
 
-.form-container input{
+.form-container input {
   background-color: rgba(255, 255, 255, 0.644);
 }
-.regform input{
+.regform input {
   background-color: rgba(255, 255, 255, 0.644);
 }
+
+/* Sidebar styles */
+.sidebar {
+  height: calc(100vh - 126px); /* Adjust height for header */
+  width: 250px;
+  background-color: #177054;
+  color: #fff;
+  padding: 1rem;
+  position: fixed;
+  top: 126px; /* Sidebar starts below the header */
+  left: 0;
+  transition: all 0.3s ease-in-out;
+  z-index: 1050;
+  transform: translateX(-100%);
+}
+.sidebar.show {
+  transform: translateX(0);
+}
+.sidebar .sidebar-header {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+.sidebar a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.1rem;
+}
+.sidebar a:hover {
+  color: #5cbd85;
+}
+.sidebar .nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.sidebar-toggler {
+  background-color: transparent;
+  border: none;
+  color: #000000;
+  font-size: 1.5rem;
+  position: fixed;
+  top: 136px; /* Place the toggler slightly below the header */
+  left: 10px;
+  z-index: 1060;
+  cursor: pointer;
+}
+@media (min-width: 768px) {
+  .sidebar {
+    transform: translateX(0);
+  }
+  .sidebar-toggler {
+    display: none;
+  }
+}
+.main-content {
+  margin-left: 250px;
+  height: 86vh;
+  padding: 30px;
+  transition: all 0.3s ease-in-out;
+  margin-top: var(--header-height);
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0;
+    padding: 5px;
+    height: 100%;
+  }
+}
+
+.no-scroll {
+  overflow: hidden; /* Prevent scrolling */
+  height: 100%; /* Ensure the page doesn't expand vertically */
+}
+
+.sidebar.show + .main-content {
+  margin-left: 0;
+}
+
+.form {
+  padding-top: var(--header-height); /* Adds space equal to the header height */
+  margin-top: 0; /* Remove any top margin to avoid unnecessary space */
+}
+
+.divider {
+  border: none;
+  border-bottom: 2px solid #b1b1b1;
+  margin: 1.5rem 0;
+}
+
+.progress-bar-container {
+  position: relative;
+}
+
+.image-upload-container {
+  position: relative;
+}
+.blur-background {
+  filter: blur(5px);
+  pointer-events: none;
+}
+
+/* MODALSS */
+.modal-overlay {
+  padding-top: var(--header-height); /* Adds space equal to the header height */
+  margin-top: 0; /* Remove any top margin to avoid unnecessary space */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 5000; /* Ensure modal is on top */
+  backdrop-filter: blur(10px); /* Add blur effect to the background */
+}
+
+.modal-contents {
+  text-align: left;
+  z-index: 1001;
+  background-color: #ffffff;
+  margin: auto;
+  padding: 20px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  width: 30%;
+  border-radius: 10px;
+}
+
+.modal-headers {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #dee2e6;
+  margin-bottom: 10px;
+}
+
+.close-button {
+  border: none;
+  background-color: transparent;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  color: #000000;
+}
+.close-button:hover {
+  color: #dc3545;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-headers h5 {
+  font-weight: bold;
+  color: #000000;
+  font-size: 1.25rem;
+}
+
+.modal-bodys ul {
+  font-weight: 400;
+  font-style: normal;
+  font-size: 1rem;
+  line-height: 1.6;
+  padding-left: 20px;
+  margin-bottom: 20px;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  border-top: 1px solid #dee2e6;
+  padding: 1rem 0 0;
+}
+.modal-footer .btn {
+  background-color: #0d6efd;
+  color: white;
+  padding: 5px 20px;
+  border: none;
+  border-radius: 5px;
+}
+.modal-footer .btn:hover {
+  background-color: #0b5ed7;
+}
+
+.sidenav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100%;
+  background-color: #f8f9fa;
+  box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.2);
+  padding-top: 20px;
+  display: none;
+  z-index: 1000;
+}
+
+.sidenav.open {
+  display: block;
+}
+
+.sidenav-toggle {
+  position: fixed;
+  top: 126px !important;
+  left: 5px !important;
+  z-index: 2000;
+  padding: 0;
+  font-size: 2rem !important;
+  background-color: transparent;
+  border: none;
+  color: #333;
+}
+
+.sidenav-item {
+  width: 100%;
+}
+
+.sidenav-link {
+  text-decoration: none !important; /* Ensure underline is removed */
+  font-size: 1.1rem;
+  color: #333;
+  display: block;
+  padding: 10px;
+  text-align: left;
+}
+
+.sidenav-link:hover {
+  color: #007bff;
+  font-weight: bold;
+}
+
+.sidenav-link:focus {
+  outline: none; /* Prevent focus outline */
+}
+
+.progress-bar-line {
+  height: 2px;
+  background-color: #6c757d;
+  margin: 5px 0;
+}
+
+@media (max-width: 768px) {
+  .sidenav {
+    width: 200px;
+    padding-top: 170px;
+    margin-top: 0;
+  }
+  .sidenav-toggle {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    font-size: 3rem;
+    z-index: 2000;
+  }
+}
+

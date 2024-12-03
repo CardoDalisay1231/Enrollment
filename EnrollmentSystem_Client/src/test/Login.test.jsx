@@ -51,7 +51,7 @@ describe("Login Component - Registrar Role", () => {
         role: "registrar",
       }
     );
-    expect(mockNavigate).toHaveBeenCalledWith("/"); // Redirect to root path
+    expect(mockNavigate).toHaveBeenCalledWith("/dashboard"); // Redirect to root path
   });
 
   test("displays error for Registrar role with invalid credentials", async () => {

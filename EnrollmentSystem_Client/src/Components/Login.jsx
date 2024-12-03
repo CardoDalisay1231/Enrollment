@@ -27,7 +27,7 @@ export default function Login() {
       setSuccess(true); // Set success message
       setError(null);
       
-      navigate("/"); // Replace with actual path
+      navigate("/dashboard");
     } catch (err) {
       // Handle error
       
@@ -67,7 +67,7 @@ export default function Login() {
               </select>
               <button className="btn btn-block">Login</button>
               {error && <p className="error-message">{error}</p>}
-              {success && <p className="success-message">Login successful!</p>} {/* Display success */}
+              {success && <p className="success-message">Login successful!</p>} 
               <p className="message">
                 Not Registered? <Link to="/register">Create a new account</Link>
               </p>
