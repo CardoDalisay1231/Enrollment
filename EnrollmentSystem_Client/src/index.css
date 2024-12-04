@@ -853,5 +853,15 @@ button {
     font-size: 3rem;
     z-index: 2000;
   }
+  .upload-section .d-flex {
+    
+    flex-direction: column !important;
+    align-items: stretch; /* Ensures full-width alignment */
+  }
+  .mod{
+    padding-top: 110px;
+  }
 }
-
+.check{
+  padding: 5px;
+}

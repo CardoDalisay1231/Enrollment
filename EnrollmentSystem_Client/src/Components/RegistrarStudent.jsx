@@ -5,13 +5,13 @@ import axios from "axios";
 export default function RegistrarStudent() {
   const [isOpen, setIsOpen] = useState(false);
   const [students, setStudents] = useState([]);
+  const [selectedStudent, setSelectedStudent] = useState(null);
   const [error, setError] = useState(null);
 
   const toggleSidebar = () => {
     setIsOpen((prevIsOpen) => {
       const newIsOpen = !prevIsOpen;
 
-      // Toggle the no-scroll class on the body
       if (newIsOpen) {
         document.body.classList.add("no-scroll");
       } else {
@@ -21,20 +21,16 @@ export default function RegistrarStudent() {
       return newIsOpen;
     });
   };
+
   // Fetch students function
   const fetchStudents = async () => {
     try {
-      // Retrieve the token from localStorage
       const token = localStorage.getItem("token");
-
-      // Make the request with the token in the Authorization header
       const response = await axios.get("http://localhost:3000/api/students", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
 
-      setStudents(response.data.data); // Update the state with fetched students
+      setStudents(response.data.data);
       setError(null);
     } catch (err) {
       console.error("Error fetching students:", err);
@@ -42,7 +38,26 @@ export default function RegistrarStudent() {
     }
   };
 
-  // Fetch students on component mount
+  // Fetch a single student by ID
+  const fetchStudentById = async (id) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get(`http://localhost:3000/api/students/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      setSelectedStudent(response.data.data);
+    } catch (err) {
+      console.error("Error fetching student details:", err);
+      setError(err.response?.data?.message || "Failed to fetch student details");
+    }
+  };
+
+  // Handle "View" button click
+  const handleViewClick = (id) => {
+    fetchStudentById(id);
+  };
+
   useEffect(() => {
     fetchStudents();
   }, []);
@@ -51,14 +66,8 @@ export default function RegistrarStudent() {
     <div>
       {/* Header */}
       <header className="header">
-        <img
-          src="/images/cvsu-logo.png"
-          alt="University Logo"
-          className="logo"
-        />
-        <p>
-          CAVITE STATE UNIVERSITY <br /> BACOOR CAMPUS
-        </p>
+        <img src="/images/cvsu-logo.png" alt="University Logo" className="logo" />
+        <p>CAVITE STATE UNIVERSITY <br /> BACOOR CAMPUS</p>
       </header>
 
       {/* Sidebar */}
@@ -83,13 +92,10 @@ export default function RegistrarStudent() {
       <button className="sidebar-toggler" onClick={toggleSidebar}>
         <i className="fas fa-bars"></i>
       </button>
+
       <main className="main-content">
         {/* Error Message */}
-        {error && (
-          <div className="alert alert-danger text-center" role="alert">
-            {error}
-          </div>
-        )}
+        {error && <div className="alert alert-danger text-center">{error}</div>}
 
         {/* Student List */}
         <section className="row mt-4">
@@ -119,11 +125,13 @@ export default function RegistrarStudent() {
                         <td>{student.student_type}</td>
                         <td>{student.program_id}</td>
                         <td>
-                          <button className="btn btn-primary btn-sm me-2">
+                          <button
+                            className="btn btn-primary btn-sm me-2"
+                            data-bs-toggle="modal"
+                            data-bs-target="#studentModal"
+                            onClick={() => handleViewClick(student.id)}
+                          >
                             View
-                          </button>
-                          <button className="btn btn-danger btn-sm">
-                            Delete
                           </button>
                         </td>
                       </tr>
@@ -136,6 +144,39 @@ export default function RegistrarStudent() {
             </div>
           </div>
         </section>
+
+        {/* Bootstrap Modal */}
+        <div className="modal mod fade" id="studentModal" tabIndex="-1" aria-labelledby="studentModalLabel" aria-hidden="true">
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="studentModalLabel">Student Details</h5>
+                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div className="modal-body">
+                {selectedStudent ? (
+                  <div>
+                    <p><strong>ID:</strong> {selectedStudent.id}</p>
+                    <p><strong>Name:</strong> {selectedStudent.first_name} {selectedStudent.last_name}</p>
+                    <p><strong>Email:</strong> {selectedStudent.email}</p>
+                    <p><strong>Contact:</strong> {selectedStudent.contact_number}</p>
+                    <p><strong>Address:</strong> {selectedStudent.address}</p>
+                    <p><strong>Date of Birth:</strong> {selectedStudent.date_of_birth}</p>
+                    <p><strong>Student Type:</strong> {selectedStudent.student_type}</p>
+                    <p><strong>Standing Year:</strong> {selectedStudent.standing_year}</p>
+                    <p><strong>Semester:</strong> {selectedStudent.semester}</p>
+                    <p><strong>Course ID:</strong> {selectedStudent.program_id}</p>
+                  </div>
+                ) : (
+                  <p>Loading student details...</p>
+                )}
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </main>
     </div>
   );

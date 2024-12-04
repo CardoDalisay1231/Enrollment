@@ -23,13 +23,21 @@ export default function Admission() {
     if (registrationData.fullname && registrationData.email && registrationData.applicantType && registrationData.campus) {
       if (registrationData.applicantType === "shs_graduate") {
         navigate("/form1");
+      } else if (registrationData.applicantType === "als_passer") {
+        navigate("/formAls1");
+      } else if (registrationData.applicantType === "transferee") {
+        navigate("/transform1");
+      } else if (registrationData.applicantType === "current_shs") {
+        navigate("/formcurnt1");
       } else {
         // Handle other navigation or alerts for different applicant types if needed
+        alert("Unsupported applicant type selected!");
       }
     } else {
       alert("Please fill out all fields!");
     }
   };
+  
 
 
   return (
@@ -69,6 +77,7 @@ export default function Admission() {
               </option>
               <option value="shs_graduate">SHS Graduate</option>
               <option value="current_shs">Current SHS Student</option>
+              <option value="als_passer">Alternative Learning System (ALS) Passer</option>
               <option value="transferee">Transferee</option>
             </select>
             <select

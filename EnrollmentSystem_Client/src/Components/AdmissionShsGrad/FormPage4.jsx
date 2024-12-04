@@ -232,31 +232,29 @@ export default function FormPage4() {
           {/* Grade 11 Report Card */}
           <section className="mb-4">
             <h5>Grade 11 Report Card</h5>
-            <div className="row g-3">
-              <div className="col-md-6 text-center">
+            <div className="d-flex flex-wrap gap-3">
+              <div className="col-12 col-md-auto">
                 {renderUploadBox("grade11_1st", "1st Semester")}
               </div>
-              <div className="col-md-6 text-center">
+              <div className="col-12 col-md-auto">
                 {renderUploadBox("grade11_2nd", "2nd Semester")}
               </div>
             </div>
           </section>
           <hr />
-
           {/* Grade 12 Report Card */}
           <section className="mb-4">
             <h5>Grade 12 Report Card</h5>
-            <div className="row g-3">
-              <div className="col-md-6 text-center">
+            <div className="d-flex flex-wrap gap-3">
+              <div className="col-12 col-md-auto">
                 {renderUploadBox("grade12_1st", "1st Semester")}
               </div>
-              <div className="col-md-6 text-center">
+              <div className="col-12 col-md-auto">
                 {renderUploadBox("grade12_2nd", "2nd Semester")}
               </div>
             </div>
           </section>
           <hr />
-
           {/* Certificate of Non-Issuance of Form 137 */}
           <section className="mb-4">
             <h5>Certificate of Non-Issuance of Form 137</h5>

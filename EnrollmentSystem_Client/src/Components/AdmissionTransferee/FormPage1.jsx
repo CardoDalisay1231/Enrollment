@@ -74,23 +74,12 @@ const FormPage1 = () => {
               style={{
                 flex: 1,
                 height: "2px",
-                backgroundColor: "#198754", // Grey line color
-                margin: "0 10px", // Adds space between badges and line
-              }}
-            ></div>
-            <div className="badge bg-success text-white p-3">
-              Family Background
-            </div>
-            <div
-              style={{
-                flex: 1,
-                height: "2px",
                 backgroundColor: "#6c757d", // Grey line color
                 margin: "0 10px", // Adds space between badges and line
               }}
             ></div>
             <div className="badge bg-secondary text-white p-3">
-              Educational Attainment
+              Family Background
             </div>
             <div
               style={{
@@ -121,35 +110,40 @@ const FormPage1 = () => {
         <div className={`sidenav ${isOpen ? "open" : ""}`}>
           <div className="d-flex flex-column align-items-start p-3">
             <div className="sidenav-item">
-              <Link to="/form1" className="badge bg-success text-white p-3 text-decoration-none">
+              <Link
+                to="/transform1"
+                className="badge bg-success text-white p-3 text-decoration-none"
+              >
                 Personal Information
               </Link>
             </div>
             <div className="progress-bar-line"></div>
 
             <div className="sidenav-item">
-              <Link to="/form2" className="badge bg-secondary text-white p-3 text-decoration-none">
+              <Link
+                to="/transform2"
+                className="badge bg-secondary text-white p-3 text-decoration-none"
+              >
                 Family Background
               </Link>
             </div>
             <div className="progress-bar-line"></div>
 
             <div className="sidenav-item">
-              <Link to="/form3" className="badge bg-secondary text-white p-3 text-decoration-none">
-                Educational Attainment
-              </Link>
-            </div>
-            <div className="progress-bar-line"></div>
-
-            <div className="sidenav-item">
-              <Link to="/form4" className="badge bg-secondary text-white p-3 text-decoration-none">
+              <Link
+                to="/transform4"
+                className="badge bg-secondary text-white p-3 text-decoration-none"
+              >
                 Requirements
               </Link>
             </div>
             <div className="progress-bar-line"></div>
 
             <div className="sidenav-item">
-              <Link to="/form5" className="badge bg-secondary text-white p-3 text-decoration-none">
+              <Link
+                to="/transform5"
+                className="badge bg-secondary text-white p-3 text-decoration-none"
+              >
                 Schedule Appointment
               </Link>
             </div>
@@ -228,11 +222,11 @@ const FormPage1 = () => {
                 {/* Personal Information */}
                 <div className="row g-3">
                   <div className="col-md-6">
-                    <label className="form-label">Given Name:</label>
+                    <label className="form-label">Family Name:</label>
                     <input type="text" className="form-control" />
                   </div>
                   <div className="col-md-6">
-                    <label className="form-label">Family Name:</label>
+                    <label className="form-label">First Name:</label>
                     <input type="text" className="form-control" />
                   </div>
                   <div className="col-md-6">
@@ -335,11 +329,46 @@ const FormPage1 = () => {
                     <input type="text" className="form-control" />
                   </div>
                 </div>
+                <hr className="mt-4" />
+                <div className="row g-3 mt-3">
+                  <h5>Other Information:</h5>
+                  <div>
+                    <div className="form-check">
+                      <input
+                        className="form-check-input check"
+                        type="checkbox"
+                        defaultValue
+                        id="flexCheckDefault"
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="flexCheckDefault"
+                      >
+                        I have disability
+                      </label>
+                    </div>
+                    <br/>
+                    <div className="form-check">
+                      <input
+                        className="form-check-input check"
+                        type="checkbox"
+                        defaultValue
+                        id="flexCheckDefault"
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="flexCheckDefault"
+                      >
+                        I am part of an-indigneous group
+                      </label>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
             <div className="form-group d-flex justify-content-end">
-              <Link to="/form2">
+              <Link to="/transform2">
                 <button type="button" className="btn btn-success">
                   Next
                 </button>

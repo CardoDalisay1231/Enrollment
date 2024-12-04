@@ -1,7 +1,17 @@
 import React, { useState, useEffect } from "react";
 
 function WarningModal() {
-  const [showModal, setShowModal] = useState(true); // Initially show the modal
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    // Check if the modal has been shown before
+    const hasSeenModal = localStorage.getItem("hasSeenModal");
+
+    if (!hasSeenModal) {
+      setShowModal(true); // Show the modal if it hasn't been shown
+      localStorage.setItem("hasSeenModal", "true"); // Mark it as shown
+    }
+  }, []);
 
   const closeModal = () => {
     setShowModal(false);

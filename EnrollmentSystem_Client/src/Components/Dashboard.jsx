@@ -43,6 +43,7 @@ export default function Dashboard() {
             <Link to="/login">
               <button className="apply-now">APPLY NOW</button>
             </Link>
+            
           </div>
         </div>
         <div className="section__pic-container">
