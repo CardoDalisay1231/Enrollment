@@ -12,17 +12,27 @@ export const getAllStudents = async (req, res) => {
   }
 };
 
+
 export const getStudentById = async (req, res) => {
   try {
+    // If the role is 'student', retrieve only their own data
+    if (req.user.role === 'student') {
+      if (req.user.id !== parseInt(req.params.id)) {
+        return res.status(403).json({ error: 'Forbidden: You can only view your own data' });
+      }
+    }
+
     const student = await studentService.getStudentById(req.params.id);
     if (!student) {
       throw new Error('Student not found');
     }
+
     return handleResponse(res, 200, student);
   } catch (error) {
     return handleResponse(res, 404, { error: error.message });
   }
 };
+
 
 export const createStudent = async (req, res) => {
   const {

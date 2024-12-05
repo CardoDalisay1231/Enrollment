@@ -124,7 +124,7 @@
    *       401:
    *         description: Unauthorized
    */
-  router.get('/:id', authorize('department_head', 'registrar'), getStudentById);
+  router.get('/:id', authorize('department_head', 'registrar' , 'student'), getStudentById);
 
   /**
    * @swagger

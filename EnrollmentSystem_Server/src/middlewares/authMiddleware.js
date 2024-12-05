@@ -29,6 +29,12 @@ export const authorize = (...roles) => {
     if (!roles.includes(req.user.role)) {
       return res.status(403).json({ error: 'Forbidden: Access denied' });
     }
+
+    // If the role is 'student', check if the student ID matches the one in the request URL
+    if (req.user.role === 'student' && req.user.id !== parseInt(req.params.id)) {
+      return res.status(403).json({ error: 'Forbidden: You can only access your own data' });
+    }
+
     next();
   };
 };
