@@ -1,10 +1,12 @@
 import { BaseRepository } from './baseRepository.js';
 import bcrypt from 'bcrypt';
 import Student from '../models/studentModel.js';
+import Person from '../models/personModel.js';
 
 export class StudentRepository extends BaseRepository {
   constructor() {
-    super('students', Student);
+    super('students', Student, 'id'); // Specify students table and primary key as 'id'
+    this.personRepo = new BaseRepository('persons', Person, 'id'); // Handle persons with 'id'
   }
 
   // Hash the password
@@ -12,45 +14,59 @@ export class StudentRepository extends BaseRepository {
     return await bcrypt.hash(password, 10); // 10 is the salt rounds
   }
 
-  // Override the create method to hash the password
+  // Override the create method
   async create(studentData) {
+    console.log("this is create Studen repo CREATE")
     const {
       first_name,
       middle_name,
       last_name,
+      email,
+      password,
       contact_number,
       address,
       date_of_birth,
       student_type,
       standing_year,
       semester,
-      password,
-      program_id, // Include program_id
+      program_id,
     } = studentData;
 
+    // Step 1: Hash the password
     const hashedPassword = await this.hashPassword(password);
 
-    return super.create({
+    // Step 2: Create person
+    const person = await this.personRepo.create({
       first_name,
       middle_name,
       last_name,
+      email,
+      password: hashedPassword,
       contact_number,
       address,
       date_of_birth,
+    });
+
+    // Step 3: Create student
+    const student = await super.create({
+      person_id: person.id, // Link to persons table (person_id to 'id')
       student_type,
       standing_year,
       semester,
-      password: hashedPassword,
-      program_id, // Pass program_id to the database
+      program_id,
     });
+
+    // Return combined data
+    return { ...person, ...student };
   }
 
-  // Override the update method to hash the password if it's provided
-  async update(id, studentData) {
+  // Override the update method
+  async update(studentId, studentData) {
     const {
       first_name,
       middle_name,
       last_name,
+      email,
       contact_number,
       address,
       date_of_birth,
@@ -58,46 +74,91 @@ export class StudentRepository extends BaseRepository {
       standing_year,
       semester,
       password,
-      program_id, // Include program_id
+      program_id,
     } = studentData;
 
+    // Fetch student to get person_id
+    const student = await this.getById(studentId);
+    if (!student) throw new Error('Student not found');
+
+    // Step 1: Hash the password if provided
     const hashedPassword = password ? await this.hashPassword(password) : undefined;
 
-    const dataToUpdate = {
+    // Step 2: Update person data
+    await this.personRepo.update(student.person_id, {
       first_name,
       middle_name,
       last_name,
+      email,
       contact_number,
       address,
       date_of_birth,
+      ...(hashedPassword && { password: hashedPassword }),
+    });
+
+    // Step 3: Update student data
+    const dataToUpdate = {
       student_type,
       standing_year,
       semester,
-      ...(hashedPassword && { password: hashedPassword }),
-      ...(program_id && { program_id }), // Update program_id if provided
+      program_id,
     };
 
-    return super.update(id, dataToUpdate);
+    return super.update(studentId, dataToUpdate);
   }
 
-  // Retrieve all students
   async getAll() {
-    return super.getAll();
+    console.log("get all students triggered");
+  
+    const query = `
+      SELECT s.*, p.first_name, p.middle_name, p.last_name, p.email, p.password, p.contact_number, p.address, p.date_of_birth, 
+             pr.program_name
+      FROM students s
+      JOIN persons p ON s.person_id = p.id  
+      JOIN programs pr ON s.program_id = pr.id 
+    `;
+    
+    try {
+      const result = await this.getWithJoin(query);
+      //console.log("Query result:", result);  // Log the result here
+      return result;
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      throw error;  // Rethrow the error to be handled elsewhere
+    }
+  }
+  
+
+
+  // Retrieve a single student by ID with person data
+  async getById(studentId) {
+    const query = `
+      SELECT s.*, p.first_name, p.middle_name, p.last_name, p.email, p.password, p.contact_number, p.address, p.date_of_birth
+      FROM students s
+      JOIN persons p ON s.person_id = p.id  -- updated person_id to 'id'
+      WHERE s.id = $1  -- updated student_id to 'id'
+    `;
+    const result = await this.getWithJoin(query, [studentId]);
+    return result.length > 0 ? result[0] : null;
   }
 
-  // Retrieve a student by ID
-  async getById(id) {
-    return super.getById(id);
+  // Delete a student and their associated person
+  async delete(studentId) {
+    const student = await this.getById(studentId);
+    if (!student) throw new Error('Student not found');
+
+    // Step 1: Delete student
+    await super.delete(studentId);
+
+    // Step 2: Delete person
+    await this.personRepo.delete(student.person_id);
+
+    return student;
   }
 
-  // Delete a student
-  async delete(id) {
-    return super.delete(id);
-  }
-
-  // Custom method to verify the password
-  async verifyPassword(student, plainPassword) {
-    return await bcrypt.compare(plainPassword, student.password);
+  // Verify password
+  async verifyPassword(person, plainPassword) {
+    return await bcrypt.compare(plainPassword, person.password);
   }
 }
 

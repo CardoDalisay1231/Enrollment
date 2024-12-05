@@ -1,22 +1,22 @@
-// src/repositories/baseRepository.js
 import { query } from '../config/dbConfig.js';
 
 export class BaseRepository {
-  constructor(tableName, model) {
-    this.tableName = tableName;
-    this.model = model;
+  constructor(tableName, model, idColumn = 'id') {
+    this.tableName = tableName; // Table name in the database
+    this.model = model;        // Model used for mapping
+    this.idColumn = idColumn;  // Column used as the identifier (default: 'id')
   }
 
   // Generic create method
   async create(data) {
+    console.log("this is create PERSON repo CREATE")
+
     const columns = Object.keys(data).join(', ');
     const values = Object.values(data);
     const placeholders = values.map((_, index) => `$${index + 1}`).join(', ');
 
-    const result = await query(
-      `INSERT INTO ${this.tableName} (${columns}) VALUES (${placeholders}) RETURNING *`,
-      values
-    );
+    const queryText = `INSERT INTO ${this.tableName} (${columns}) VALUES (${placeholders}) RETURNING *`;
+    const result = await query(queryText, values);
 
     return this.model.fromDatabase(result.rows[0]);
   }
@@ -28,42 +28,55 @@ export class BaseRepository {
       .join(', ');
 
     const values = Object.values(data);
-    values.push(id);
+    values.push(id); // Add ID for the WHERE clause
 
-    const result = await query(
-      `UPDATE ${this.tableName} SET ${setClause} WHERE id = $${values.length} RETURNING *`,
-      values
-    );
+    const queryText = `UPDATE ${this.tableName} SET ${setClause} WHERE ${this.idColumn} = $${values.length} RETURNING *`;
+    const result = await query(queryText, values);
 
-    return this.model.fromDatabase(result.rows[0]);
+    return result.rows.length > 0 ? this.model.fromDatabase(result.rows[0]) : null;
   }
 
   // Generic delete method
   async delete(id) {
-    const result = await query(`DELETE FROM ${this.tableName} WHERE id = $1 RETURNING *`, [id]);
-    return this.model.fromDatabase(result.rows[0]);
+    const queryText = `DELETE FROM ${this.tableName} WHERE ${this.idColumn} = $1 RETURNING *`;
+    const result = await query(queryText, [id]);
+
+    return result.rows.length > 0 ? this.model.fromDatabase(result.rows[0]) : null;
   }
 
   // Generic getById method
   async getById(id) {
-    const result = await query(`SELECT * FROM ${this.tableName} WHERE id = $1`, [id]);
-    if (result.rows.length === 0) return null;
-    return this.model.fromDatabase(result.rows[0]);
+    const queryText = `SELECT * FROM ${this.tableName} WHERE ${this.idColumn} = $1`;
+    const result = await query(queryText, [id]);
+
+    return result.rows.length > 0 ? this.model.fromDatabase(result.rows[0]) : null;
   }
 
   // Generic getAll method
   async getAll() {
-    const result = await query(`SELECT * FROM ${this.tableName}`);
-    console.log('All data from table:', result.rows); // Remove this log in production
+    console.log("get all students BASE");
+
+    const queryText = `SELECT * FROM ${this.tableName}`;
+    const result = await query(queryText);
+
     return result.rows.map(row => this.model.fromDatabase(row));
   }
 
-  // Generic getByEmail method
+  // Generic getByEmail method (useful for persons)
   async getByEmail(email) {
-    const result = await query(`SELECT * FROM ${this.tableName} WHERE email = $1`, [email]);
-    if (result.rows.length === 0) return null;
-    return this.model.fromDatabase(result.rows[0]);
+    const queryText = `SELECT * FROM ${this.tableName} WHERE email = $1`;
+    const result = await query(queryText, [email]);
+
+    return result.rows.length > 0 ? this.model.fromDatabase(result.rows[0]) : null;
   }
+
+  // Get with custom joins (used in StudentRepository for persons and students)
+  async getWithJoin(joinQuery, params = []) {
+    const result = await query(joinQuery, params);
+    //console.log("Raw query result:", result);  // Add this line to see what the result looks like
+    return result.rows.map(row => this.model.fromDatabase(row));
+  }
+  
 }
 
 export default BaseRepository;
