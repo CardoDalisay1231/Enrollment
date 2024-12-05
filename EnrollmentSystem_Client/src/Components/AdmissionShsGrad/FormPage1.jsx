@@ -3,44 +3,44 @@ import { Link } from "react-router-dom";
 import WarningModal from "./WarningModal";
 
 const FormPage1 = () => {
-  const [imagePreview, setImagePreview] = useState(null);
-  const [errorMessage, setErrorMessage] = useState(""); // State to hold error message
-  const [isOpen, setIsOpen] = useState(false); // For mobile sidenav toggle
+    const [imagePreview, setImagePreview] = useState(null);
+    const [errorMessage, setErrorMessage] = useState(""); // State to hold error message
+    const [isOpen, setIsOpen] = useState(false); // For mobile sidenav toggle
 
-  // Handle image change for preview
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
+    // Handle image change for preview
+    const handleImageChange = (e) => {
+      const file = e.target.files[0];
 
-    if (file) {
-      const fileSizeInKB = file.size / 1024; // Convert size to KB
+      if (file) {
+        const fileSizeInKB = file.size / 1024; // Convert size to KB
 
-      if (fileSizeInKB > 200) {
-        setErrorMessage(
-          "File size exceeds 200 KB. Please upload a smaller image."
-        );
-        e.target.value = ""; // Clear the file input to allow the user to select another file
-        return;
+        if (fileSizeInKB > 200) {
+          setErrorMessage(
+            "File size exceeds 200 KB. Please upload a smaller image."
+          );
+          e.target.value = ""; // Clear the file input to allow the user to select another file
+          return;
+        }
+
+        setErrorMessage(""); // Reset error message if file size is valid
+
+        const reader = new FileReader();
+        reader.onload = () => {
+          setImagePreview(reader.result);
+        };
+        reader.readAsDataURL(file);
       }
+    };
 
-      setErrorMessage(""); // Reset error message if file size is valid
+    // Trigger file input click
+    const handlePreviewClick = () => {
+      document.getElementById("fileInput").click();
+    };
 
-      const reader = new FileReader();
-      reader.onload = () => {
-        setImagePreview(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  // Trigger file input click
-  const handlePreviewClick = () => {
-    document.getElementById("fileInput").click();
-  };
-
-  // Handle the sidenav toggle (for mobile view)
-  const toggleSidenav = () => {
-    setIsOpen(!isOpen);
-  };
+    // Handle the sidenav toggle (for mobile view)
+    const toggleSidenav = () => {
+      setIsOpen(!isOpen);
+    };
   return (
     <div className="containers">
       <WarningModal />
@@ -237,9 +237,9 @@ const FormPage1 = () => {
                   </div>
                 )}
               </div>
-
               {/* Personal Information and Address on the Right */}
               <div className="col-md-9">
+              <h5>Personal Information</h5>
                 {/* Personal Information */}
                 <div className="row g-3">
                   <div className="col-md-6">
