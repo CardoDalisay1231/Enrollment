@@ -2,6 +2,8 @@ import jwt from 'jsonwebtoken';
 import { DepartmentHeadRepository } from '../repositories/departmentHeadRepository.js';
 import { RegistrarHeadRepository } from '../repositories/registrarHeadRepository.js'; // Example additional repository
 import { StudentRepository } from '../repositories/studentRepository.js';
+import { AdviserRepository } from '../repositories/adviserRepository.js'
+
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -15,7 +17,8 @@ let blacklistedTokens = [];  // Store blacklisted tokens (in-memory)
 const roleRepositories = {
   department_head: new DepartmentHeadRepository(),
   registrar: new RegistrarHeadRepository(), // Example additional role
-  student: new StudentRepository()
+  student: new StudentRepository(), 
+  adviser: new AdviserRepository()
 };
 
 // Login User Function

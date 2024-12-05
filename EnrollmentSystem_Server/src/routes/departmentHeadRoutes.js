@@ -74,7 +74,7 @@ router.use(protect);
  *       401:
  *         description: Unauthorized
  */
-router.get('/', authorize('registrar', 'department_head'), getAllDepartmentHeads);
+router.get('/', authorize('registrar'), getAllDepartmentHeads);
 
 /**
  * @swagger

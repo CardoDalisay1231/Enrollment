@@ -6,6 +6,7 @@ import swaggerJSDoc from 'swagger-jsdoc';  // Import swagger-jsdoc
 import studentRoutes from './routes/studentRoutes.js';
 import registrarHeadRoutes from './routes/registrarHeadRoutes.js';
 import departmentHeadRoutes from './routes/departmentHeadRoutes.js';
+import adviserRoutes from './routes/adviserRoutes.js'
 import authRoutes from './routes/authRoutes.js';
 import programRoutes from './routes/programRoutes.js';
 
@@ -51,6 +52,8 @@ app.use('/api/departmentheads', departmentHeadRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/registrarheads', registrarHeadRoutes);
 app.use('/api/programs', programRoutes);
+app.use('/api/advisers', adviserRoutes);
+
 
 // Create the server instance
 const server = http.createServer(app);
