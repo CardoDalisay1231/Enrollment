@@ -64,6 +64,18 @@ export class BaseRepository {
     if (result.rows.length === 0) return null;
     return this.model.fromDatabase(result.rows[0]);
   }
+
+  // Method to generate email based on first name, middle name, and last name
+  generateEmail(firstName, middleName, lastName) {
+    // Remove spaces and convert to lowercase
+    const formattedFirstName = firstName.trim().toLowerCase();
+    const formattedMiddleName = middleName.trim().toLowerCase();
+    const formattedLastName = lastName.trim().toLowerCase();
+
+    // Combine to form the email
+    const email = `${formattedFirstName}${formattedMiddleName ? formattedMiddleName : ''}.${formattedLastName}@cvsu.edu.ph`;
+    return email;
+  }
 }
 
 export default BaseRepository;
