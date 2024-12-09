@@ -94,8 +94,33 @@ describe('Student Routes Tests', () => {
         .send(newStudent)
         .set('Authorization', `Bearer ${deptHeadToken}`);
 
-      expect(res.status).toBe(403);
+        expect(res.status).toBe(403);
+        expect(res.body.error).toBe('Forbidden: Access denied');
     });
+
+    it('should return 400 if required field is missing in create student request', async () => {
+        const newStudent = {
+          first_name: 'John',
+          last_name: 'Smith',
+          contact_number: '123-456-7890',
+          address: '123 Main St',
+          date_of_birth: '2001-01-01',
+          student_type: 'Regular',
+          standing_year: 1,
+          semester: '1st',
+          password: '123',
+          // Missing program_id
+        };
+      
+        const res = await request(app)
+          .post('/api/students')
+          .send(newStudent)
+          .set('Authorization', `Bearer ${registrarToken}`);
+      
+        expect(res.status).toBe(400);
+        expect(res.body.error).toBe('program id is required');
+      });
+      
   });
 
 
@@ -166,6 +191,28 @@ describe('Student Routes Tests', () => {
 
       expect(res.status).toBe(403);
     });
+
+    it('should return 404 if student not found', async () => {
+        const nonExistentStudentId = 999; // Use a student ID that doesn't exist
+        const res = await request(app)
+          .get(`/api/students/${nonExistentStudentId}`)
+          .set('Authorization', `Bearer ${deptHeadToken}`);
+      
+        expect(res.status).toBe(404);
+        expect(res.body.error).toBe('Student not found');
+      });
+
+      it('should return 403 if student tries to access another student\'s data', async () => {
+        const anotherStudentId = 2; // Replace with an actual student ID
+        const res = await request(app)
+          .get(`/api/students/${anotherStudentId}`)
+          .set('Authorization', `Bearer ${studentToken}`);
+      
+        expect(res.status).toBe(403);
+        expect(res.body.error).toBe('Forbidden: You can only access your own data');
+      });
+      
+      
   });
 
   describe('PUT /api/students/:id', () => {

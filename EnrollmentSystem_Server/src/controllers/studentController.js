@@ -95,3 +95,4 @@ export const deleteStudent = async (req, res) => {
     return handleResponse(res, 404, { error: 'Student not found' });
   }
 };
+
