@@ -9,6 +9,7 @@ import departmentHeadRoutes from './routes/departmentHeadRoutes.js';
 import adviserRoutes from './routes/adviserRoutes.js'
 import authRoutes from './routes/authRoutes.js';
 import programRoutes from './routes/programRoutes.js';
+import courseRoutes from './routes/courseRoutes.js'
 
 // Create the express app
 const app = express();
@@ -53,6 +54,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/registrarheads', registrarHeadRoutes);
 app.use('/api/programs', programRoutes);
 app.use('/api/advisers', adviserRoutes);
+app.use('/api/courses', courseRoutes)
 
 
 // Create the server instance
