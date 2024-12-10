@@ -13,11 +13,6 @@ export class DepartmentHeadRepository extends BaseRepository {
     return await bcrypt.hash(password, 10); // 10 is the salt rounds
   }
 
-  // Method to generate email (if needed)
-  generateEmail(first_name, middle_name, last_name) {
-    // Generate a simple email format using the names (this is just an example)
-    return `${first_name.toLowerCase()}.${middle_name.toLowerCase()}.${last_name.toLowerCase()}@school.com`;
-  }
 
   // Override the create method to hash the password and include program_id and email
   async create(departmentHeadData) {

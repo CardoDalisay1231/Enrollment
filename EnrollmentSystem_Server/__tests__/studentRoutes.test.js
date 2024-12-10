@@ -129,7 +129,7 @@ describe('Student Routes Tests', () => {
     it('should log in the newly created student and retrieve their ID', async () => {
       try {
         // Log in the student using the loginUser function
-        let createdStudenttoken = await loginUser(users.student.email, users.student.password, users.student.role);
+        let createdStudenttoken = await loginUser(createdStudentEmail, createdStudentPassword, users.student.role);
     
         expect(createdStudenttoken).toBeDefined();
         console.log('Logged in student createdStudenttoken:', createdStudenttoken);

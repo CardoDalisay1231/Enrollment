@@ -15,7 +15,6 @@ export const getAllAdvisers = async (req, res) => {
 
 export const getAdviserById = async (req, res) => {
   try {
-    // If the role is 'adviser', retrieve only their own data
     if (req.user.role === 'adviser') {
       if (req.user.id !== parseInt(req.params.id)) {
         return res.status(403).json({ error: 'Forbidden: You can only view your own data' });
@@ -53,7 +52,6 @@ export const createAdviser = async (req, res) => {
 
 export const updateAdviser = async (req, res) => {
   try {
-    // If the role is 'adviser', allow them to only update their own data
     if (req.user.role === 'adviser') {
       if (req.user.id !== parseInt(req.params.id)) {
         return res.status(403).json({ error: 'Forbidden: You can only update your own data' });
@@ -73,7 +71,7 @@ export const updateAdviser = async (req, res) => {
 export const deleteAdviser = async (req, res) => {
   try {
     const deletedAdviser = await adviserService.deleteAdviser(req.params.id);
-    return handleResponse(res, 200, deletedAdviser);  // Respond with the deleted adviser details
+    return handleResponse(res, 200, deletedAdviser);
   } catch (error) {
     return handleResponse(res, 404, { error: 'Adviser not found' });
   }
