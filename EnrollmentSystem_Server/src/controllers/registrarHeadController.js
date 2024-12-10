@@ -17,9 +17,7 @@ export const getAllRegistrarHeads = async (req, res) => {
 export const getRegistrarHeadById = async (req, res) => {
   try {
     const registrarHead = await registrarHeadService.getRegistrarHeadById(req.params.id);
-    if (!registrarHead) {
-      return handleResponse(res, 404, { error: 'Registrar Head not found' });
-    }
+
     return handleResponse(res, 200, registrarHead);
   } catch (error) {
     return handleResponse(res, 500, { error: 'Error Fetching Registrar Head' });
