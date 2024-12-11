@@ -15,6 +15,7 @@ html,
 :root {
   --header-height: 126px;
 }
+
 .header {
   height: var(--header-height);
   position: fixed;
@@ -26,6 +27,7 @@ html,
   display: flex;
   align-items: center;
   padding-left: 100px;
+  padding-right: 20px; /* Add padding to the right side */
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -45,6 +47,18 @@ html,
   height: auto; /* Maintain aspect ratio */
   margin-right: 10px; /* Space between image and title */
 }
+
+.header-buttons {
+  display: flex;
+  gap: 10px; /* Space between the buttons */
+}
+
+.header-buttons .btn {
+  font-size: 14px;
+  padding: 5px 10px;
+}
+
+
 
 /*NAVBAR*/
 .desktop-nav {
@@ -405,198 +419,6 @@ button {
   margin-top: 126px;
 }
 
-/* For CS forms */
-.regform.cs-form::before {
-  background-image: url("./images/cs.png");
-}
-
-/* For IT forms */
-.regform.it-form::before {
-  background-image: url("./images/it.png");
-  background-size: 400px;
-}
-
-/* Added from formStyles.scss */
-.regform {
-  position: relative; /* Make sure the container is positioned */
-  margin-top: 25px !important ;
-  padding: 20px;
-  max-width: 800px;
-  margin: 0 auto;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  background-color: #ffffff;
-  margin-bottom: 25px !important ;
-}
-.regform::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: url(./images/cs.png);
-  background-repeat: no-repeat;
-  background-size: 500px;
-  background-position: center; /* Adjust size as needed (use contain or specific dimensions) */
-  filter: blur(8px); /* Adjust the blur intensity */
-  z-index: 0; /* Send the background behind other content */
-}
-
-.form-title {
-  position: relative; /* Position elements relative to their container */
-  z-index: 1;
-  text-align: center;
-  font-size: 24px;
-  font-weight: bold;
-  font-family: Roboto Slab;
-  font-size: 35px;
-  font-weight: 400;
-  line-height: 23.74px;
-  text-align: center;
-}
-
-.regform .form-section {
-  position: relative;
-  margin-top: 20px;
-}
-
-.regform .form-group {
-  position: relative; /* Ensure groups are above the background */
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
-}
-
-.regform .form-group label {
-  position: relative; /* Ensure labels are above the background */
-  z-index: 1;
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-
-.regform .form-group .name-fields {
-  display: flex;
-  gap: 10px;
-}
-
-.regform .form-group .name-fields input {
-  width: calc(25% - 10px);
-}
-
-.regform .form-group input {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  width: 100%;
-  margin-bottom: 10px;
-}
-
-.regform .grades-section table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-
-.regform .grades-section table th,
-.regform .grades-section table td {
-  border: 1px solid #ccc;
-  padding: 10px;
-  text-align: left;
-}
-
-.regform .grades-section table td input {
-  width: 100%;
-  padding: 5px;
-  border: none;
-  outline: none;
-}
-
-.regform .upload-section {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-}
-
-.regform .upload-section .file-upload {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.file-upload label {
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.regform .upload-section .file-upload input {
-  border: none;
-  background-color: #f1f1f1;
-  padding: 10px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-.regform h2 {
-  font-family: Roboto Slab;
-  font-size: 35px;
-  font-weight: 400;
-  line-height: 23.74px;
-  text-align: center;
-}
-
-/* Merged from Form.css */
-.form-container.cs-form::before {
-  background-image: url("./images/cs.png");
-}
-
-/* For IT forms */
-.form-container.it-form::before {
-  background-image: url("./images/it.png");
-  background-size: 400px;
-}
-
-.form-container {
-  position: relative; /* Make sure the container is positioned */
-  max-width: 900px;
-  margin: auto;
-  margin-top: 25px;
-  padding: 20px;
-  background-color: rgb(255, 255, 255); /* Semi-transparent background */
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  overflow: hidden; /* Hide overflow for pseudo-element */
-}
-.form-container::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: url(./images/cs.png);
-  background-repeat: no-repeat;
-  background-size: 500px;
-  background-position: center;
-  filter: blur(8px); /* Adjust the blur intensity */
-  z-index: 0; /* Send the background behind other content */
-}
-
-.name-fields {
-  display: flex;
-  gap: 10px;
-}
-
-.name-fields input {
-  width: calc(25% - 10px);
-}
-
-.form-container input {
-  background-color: rgba(255, 255, 255, 0.644);
-}
-.regform input {
-  background-color: rgba(255, 255, 255, 0.644);
-}
 
 /* Sidebar styles */
 .sidebar {

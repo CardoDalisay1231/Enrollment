@@ -15,6 +15,13 @@ export const getAllDepartmentHeads = async (req, res) => {
 
 export const getDepartmentHeadById = async (req, res) => {
   try {
+    // If the role is 'department_head', retrieve only their own data
+    if (req.user.role === 'department_head') {
+      if (req.user.id !== parseInt(req.params.id)) {
+        return res.status(403).json({ error: 'Forbidden: You can only view your own data' });
+      }
+    }
+
     const departmentHead = await departmentHeadService.getDepartmentHeadById(req.params.id);
     if (!departmentHead) {
       throw new Error('Department Head not found');
@@ -24,6 +31,7 @@ export const getDepartmentHeadById = async (req, res) => {
     return handleResponse(res, 404, { error: error.message });
   }
 };
+
 
 export const createDepartmentHead = async (req, res) => {
   const { first_name, last_name, password } = req.body;
@@ -44,10 +52,20 @@ export const createDepartmentHead = async (req, res) => {
 
 export const updateDepartmentHead = async (req, res) => {
   try {
+    // If the role is 'department_head', allow them to only update their own data
+    if (req.user.role === 'department_head') {
+      if (req.user.id !== parseInt(req.params.id)) {
+        return res.status(403).json({ error: 'Forbidden: You can only update your own data' });
+      }
+    }
+
     const updatedDepartmentHead = await departmentHeadService.updateDepartmentHead(req.params.id, req.body);
+    if (!updatedDepartmentHead) {
+      return handleResponse(res, 404, { error: 'Department Head not found' });
+    }
     return handleResponse(res, 200, updatedDepartmentHead);
   } catch (error) {
-    return handleResponse(res, 404, { error: 'Department Head not found' });
+    return handleResponse(res, 500, { error: 'Error Updating Department Head' });
   }
 };
 

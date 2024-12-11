@@ -1,11 +1,10 @@
-// src/repositories/departmentHeadRepository.js
 import { BaseRepository } from './baseRepository.js';
 import bcrypt from 'bcrypt';
-import DepartmentHead from '../models/departmentHeadModel.js';
+import Adviser from '../models/adviserModel.js';
 
-export class DepartmentHeadRepository extends BaseRepository {
+export class AdviserRepository extends BaseRepository {
   constructor() {
-    super('department_heads', DepartmentHead);
+    super('advisers', Adviser);
   }
 
   // Hash the password
@@ -13,10 +12,9 @@ export class DepartmentHeadRepository extends BaseRepository {
     return await bcrypt.hash(password, 10); // 10 is the salt rounds
   }
 
-
-  // Override the create method to hash the password and include program_id and email
-  async create(departmentHeadData) {
-    const { first_name, middle_name, last_name, email, password, program_id } = departmentHeadData;
+  // Override the create method to hash the password and generate an email
+  async create(adviserData) {
+    const { first_name, middle_name, last_name, email, password, program_id, contact_number } = adviserData;
 
     // Generate email if not provided
     const generatedEmail = email || this.generateEmail(first_name, middle_name, last_name);
@@ -29,13 +27,14 @@ export class DepartmentHeadRepository extends BaseRepository {
       last_name,
       email: generatedEmail, // Use generated email if not provided
       password: hashedPassword,
+      contact_number, // Include contact_number
       program_id, // Include program_id in creation
     });
   }
 
-  // Override the update method to hash the password if it's provided and update program_id and email
-  async update(id, departmentHeadData) {
-    const { first_name, middle_name, last_name, email, password, program_id } = departmentHeadData;
+  // Override the update method to hash the password if it's provided and update program_id
+  async update(id, adviserData) {
+    const { first_name, middle_name, last_name, email, password, program_id, contact_number } = adviserData;
 
     // Generate email if not provided
     const generatedEmail = email || this.generateEmail(first_name, middle_name, last_name);
@@ -47,33 +46,34 @@ export class DepartmentHeadRepository extends BaseRepository {
       first_name,
       middle_name,
       last_name,
-      email: generatedEmail, // Use generated email if not provided
-      ...(hashedPassword && { password: hashedPassword }),
-      ...(program_id && { program_id }) // Update program_id if provided
+      email: generatedEmail, // Use generated email if original is not provided
+      ...(hashedPassword && { password: hashedPassword }), // Update password only if provided
+      contact_number, // Include contact_number
+      ...(program_id && { program_id }), // Update program_id if provided
     };
 
     return super.update(id, dataToUpdate);
   }
 
-  // Retrieve all department heads
+  // Retrieve all advisers
   async getAll() {
     return super.getAll();
   }
 
-  // Retrieve a department head by ID
+  // Retrieve an adviser by ID
   async getById(id) {
     return super.getById(id);
   }
 
-  // Delete a department head by ID
+  // Delete an adviser by ID
   async delete(id) {
     return super.delete(id);
   }
 
   // Custom method to verify the password
-  async verifyPassword(departmentHead, plainPassword) {
-    return await bcrypt.compare(plainPassword, departmentHead.password);
+  async verifyPassword(adviser, plainPassword) {
+    return await bcrypt.compare(plainPassword, adviser.password);
   }
 }
 
-export default DepartmentHeadRepository;
+export default AdviserRepository;

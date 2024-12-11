@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Link,useNavigate } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("student");
   const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(false); // Add a state for success message
+  const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -21,17 +20,22 @@ export default function Login() {
         role,
       });
 
-      // Handle successful login
-      console.log("Login successful:", response.data);
+      // Save token and user info
       localStorage.setItem("token", response.data.token);
-      setSuccess(true); // Set success message
+      localStorage.setItem("user", JSON.stringify(response.data.user));
+
+      setSuccess(true);
       setError(null);
-      
-      navigate("/dashboard");
+
+      // Redirect to Student Portal (assuming student's role and route is /studentportal)
+      if (role === "student") {
+        navigate("/portal");
+      } else {
+        // If other roles have different dashboards:
+        navigate("/dashboard");
+      }
     } catch (err) {
-      // Handle error
-      
-      setError(err.response.data.message || "Invalid credentials");
+      setError(err.response?.data.message || "Invalid credentials");
       setSuccess(false);
     }
   };
@@ -67,7 +71,7 @@ export default function Login() {
               </select>
               <button className="btn btn-block">Login</button>
               {error && <p className="error-message">{error}</p>}
-              {success && <p className="success-message">Login successful!</p>} 
+              {success && <p className="success-message">Login successful!</p>}
               <p className="message">
                 Not Registered? <Link to="/register">Create a new account</Link>
               </p>
@@ -78,4 +82,3 @@ export default function Login() {
     </div>
   );
 }
-

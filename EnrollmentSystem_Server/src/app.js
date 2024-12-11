@@ -6,8 +6,12 @@ import swaggerJSDoc from 'swagger-jsdoc';  // Import swagger-jsdoc
 import studentRoutes from './routes/studentRoutes.js';
 import registrarHeadRoutes from './routes/registrarHeadRoutes.js';
 import departmentHeadRoutes from './routes/departmentHeadRoutes.js';
+import adviserRoutes from './routes/adviserRoutes.js'
 import authRoutes from './routes/authRoutes.js';
 import programRoutes from './routes/programRoutes.js';
+import courseRoutes from './routes/courseRoutes.js'
+import coursePrerequisite from './routes/coursePrerequisiteRoutes.js'
+import checklistRoutes from './routes/checklistRoutes.js'
 
 // Create the express app
 const app = express();
@@ -51,6 +55,11 @@ app.use('/api/departmentheads', departmentHeadRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/registrarheads', registrarHeadRoutes);
 app.use('/api/programs', programRoutes);
+app.use('/api/advisers', adviserRoutes);
+app.use('/api/courses', courseRoutes);
+app.use('/api/coursePrerequisite', coursePrerequisite);
+app.use('/api/checklists', checklistRoutes);
+
 
 // Create the server instance
 const server = http.createServer(app);

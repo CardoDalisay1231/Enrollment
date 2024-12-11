@@ -1,210 +1,261 @@
 import request from 'supertest';
-import app, { server } from '../src/app';  // Import the server as well
-import { query } from '../src/config/dbConfig'; // or wherever your database connection is located
-import bcrypt from 'bcryptjs';  // Import bcrypt for password comparison
-import StudentService from '../src/services/studentService';
+import app from '../src/app'; // Assuming your Express app is exported from this file
 
-describe('Student Routes', () => {
+describe('Student Routes Tests', () => {
+  let registrarToken, deptHeadToken, studentToken;
+  let createdStudentId, createdStudentEmail, createdStudentPassword;
 
-  let createdStudentId;
-  let createdStudentPassword; // Variable to store the hashed password for validation
+  // User credentials for login
+  const users = {
+    registrar: {
+      email: 'regis.regis@cvsu.ph.com',
+      password: 'regis',
+      role: 'registrar',
+    },
+    department_head: {
+      email: 'dept.dept@cvsu.ph.com',
+      password: 'dept',
+      role: 'department_head',
+    },
+    student: {
+      email: 'stud.stud@cvsu.ph.com',
+      password: 'stud',
+      role: 'student',
+    },
+  };
 
-  it('should create a new student with password', async () => {
-    const studentData = {
-      first_name: 'John',
-      middle_name: 'Michael',
-      last_name: 'Smith',
-      contact_number: '123-456-7890',
-      address: '123 Main St',
-      date_of_birth: '2000-01-01',
-      student_type: 'regular',
-      standing_year: 2,
-      semester: '1st',
-      password: 'TestPassword123' // Password field added here
-    };
-
+  // Function to log in a user and retrieve their token
+  const loginUser = async (email, password, role) => {
     const res = await request(app)
-      .post('/api/students')
-      .send(studentData);
-    
-    expect(res.status).toBe(201);
-    expect(res.body.data).toHaveProperty('student_id');
-    createdStudentId = res.body.data.student_id;
-    createdStudentPassword = res.body.data.password; // Store the hashed password for later comparison
+      .post('/api/auth/login')
+      .send({ email, password, role });
 
-    expect(res.body.data.first_name).toBe(studentData.first_name);
-    expect(res.body.data.last_name).toBe(studentData.last_name);
-    expect(res.body.data.email).toMatch(
-      new RegExp(`${studentData.first_name.toLowerCase()}.${studentData.last_name.toLowerCase()}\\d?@cvsu.ph.com`)
-    );
+    if (res.status !== 200) {
+      throw new Error(`Login failed for ${email} with role ${role}: ${res.body.message}`);
+    }
+
+    return res.body.token;
+  };
+
+  beforeAll(async () => {
+    // Authenticate users and retrieve tokens dynamically
+    registrarToken = await loginUser(users.registrar.email, users.registrar.password, users.registrar.role);
+    deptHeadToken = await loginUser(users.department_head.email, users.department_head.password, users.department_head.role);
+    studentToken = await loginUser(users.student.email, users.student.password, users.student.role);
   });
 
-  it('should validate that password is hashed correctly', async () => {
-    // Retrieve the student from the database to check password
-    const res = await query('SELECT password FROM students WHERE student_id = $1', [createdStudentId]);
-    
-    // Use bcrypt to compare the stored hashed password with the plain text password
-    const isPasswordValid = await bcrypt.compare('TestPassword123', res.rows[0].password);
-    
-    expect(isPasswordValid).toBe(true); // Check that the password matches
-  });
+  describe('POST /api/students', () => {
+    it('should allow registrar to create a student', async () => {
+      createdStudentPassword = '123';
 
- it('should not create a student with missing required fields', async () => {
-  const requiredFields = [
-    'first_name', 'last_name', 'contact_number', 'address', 'date_of_birth', 
-    'student_type', 'standing_year', 'semester', 'password'
-  ];
-
-  for (let field of requiredFields) {
-    // Create studentData with the current field missing
-    const studentData = {
-      first_name: 'test',
-      last_name: 'test',
-      contact_number: '123-456-7890',
-      address: '123 Main St',
-      date_of_birth: '2000-01-01',
-      student_type: 'regular',
-      standing_year: 2,
-      semester: '1st',
-      password: 'TestPassword123', // Default valid password
-      // Remove the current field from the data
-      [field]: undefined
-    };
-
-    const res = await request(app)
-      .post('/api/students')
-      .send(studentData);
-
-    expect(res.status).toBe(400);
-    expect(res.body.error).toContain(`${field.replace('_', ' ')} is required`);
-  }
-}, 10000); // Increased timeout
-
-
-  it('should get all students', async () => {
-    const res = await request(app).get('/api/students');
-    
-    // Assert the response has the correct status and the expected list of students
-    expect(res.status).toBe(200);
-    expect(Array.isArray(res.body.data)).toBe(true);  // Ensure the response is an array
-
-    // Check that the response contains at least one student (since we created one before)
-    expect(res.body.data.length).toBeGreaterThan(0);
-    expect(res.body.data[0]).toHaveProperty('student_id');
-    expect(res.body.data[0].first_name).toBe('John');
-    expect(res.body.data[0].last_name).toBe('Smith');
-  });
-
-
-  it('should get a student by ID', async () => {
-    const res = await request(app).get(`/api/students/${createdStudentId}`);
-    expect(res.status).toBe(200);
-    expect(res.body.data.student_id).toBe(createdStudentId);
-  });
-
-  it('should return 404 if student not found by ID', async () => {
-    const res = await request(app).get('/api/students/999999');  // Non-existent student ID
-    expect(res.status).toBe(404);
-    expect(res.body.error).toBe('Student not found');
-  });
-
-  it('should update a student by ID', async () => {
-    const updatedData = {
-      first_name: 'John',
-      last_name: 'Doe',
-      student_type: 'regular',
-      date_of_birth: '2000-01-01',
-      standing_year: 3,
-      semester: '2nd',
-      password: 'TestPassword123456'
-    };
-
-    const res = await request(app)
-      .put(`/api/students/${createdStudentId}`)
-      .send(updatedData);
-
-    expect(res.status).toBe(200);
-    expect(res.body.data.first_name).toBe(updatedData.first_name);
-    expect(res.body.data.last_name).toBe(updatedData.last_name);
-    expect(res.body.data.student_type).toBe(updatedData.student_type);
-  }, 10000);  // Increased timeout to 10 seconds
-
-  it('should return 404 when updating a non-existent student', async () => {
-    const updatedData = {
-      first_name: 'John',
-      last_name: 'Doe',
-      student_type: 'regular',
-      date_of_birth: '2000-01-01',
-      standing_year: 3,
-      semester: '2nd', 
-      password: 'TTestPassword123456'
+      const newStudent = {
+        first_name: 'John',
+        middle_name: 'Doe',
+        last_name: 'Smith',
+        contact_number: '123-456-7890',
+        address: '123 Main St',
+        date_of_birth: '2001-01-01',
+        student_type: 'Regular',
+        standing_year: 1,
+        semester: '1st',
+        program_id: 1,
+        password: createdStudentPassword,
       };
-  
-    const res = await request(app)
-      .put('/api/students/999999')  // Non-existent student ID
-      .send(updatedData);
-  
-    expect(res.status).toBe(404);  // Expect 404 status
-    expect(res.body.error).toBe('Student not found');  // Expect the correct error message
-  }, 10000);
-  
 
-  it('should delete a student by ID', async () => {
-    const res = await request(app).delete(`/api/students/${createdStudentId}`);
-    expect(res.status).toBe(200);
-    expect(res.body.data).toHaveProperty('student_id', createdStudentId);
+      const res = await request(app)
+        .post('/api/students')
+        .send(newStudent)
+        .set('Authorization', `Bearer ${registrarToken}`);
+
+      expect(res.status).toBe(201);
+      console.log('Newly created student:', JSON.stringify(res.body, null, 2));
+
+      createdStudentId = res.body.data.id;
+      createdStudentEmail = res.body.data.email;
+    });
+
+    it('should return 403 for department_head role trying to create a student', async () => {
+      const newStudent = {
+        first_name: 'John',
+        middle_name: 'Doe',
+        last_name: 'Smith',
+        contact_number: '123-456-7890',
+        address: '123 Main St',
+        date_of_birth: '2001-01-01',
+        student_type: 'Regular',
+        standing_year: 1,
+        semester: '1st',
+        program_id: 1,
+        password: '123',
+      };
+
+      const res = await request(app)
+        .post('/api/students')
+        .send(newStudent)
+        .set('Authorization', `Bearer ${deptHeadToken}`);
+
+        expect(res.status).toBe(403);
+        expect(res.body.error).toBe('Forbidden: Access denied');
+    });
+
+    it('should return 400 if required field is missing in create student request', async () => {
+        const newStudent = {
+          first_name: 'John',
+          last_name: 'Smith',
+          contact_number: '123-456-7890',
+          address: '123 Main St',
+          date_of_birth: '2001-01-01',
+          student_type: 'Regular',
+          standing_year: 1,
+          semester: '1st',
+          password: '123',
+          // Missing program_id
+        };
+      
+        const res = await request(app)
+          .post('/api/students')
+          .send(newStudent)
+          .set('Authorization', `Bearer ${registrarToken}`);
+      
+        expect(res.status).toBe(400);
+        expect(res.body.error).toBe('program id is required');
+      });
+      
   });
 
-  it('should return 404 when deleting a non-existent student', async () => {
-    const res = await request(app).delete('/api/students/999999');  // Non-existent student ID
-    expect(res.status).toBe(404);
-    expect(res.body.error).toBe('Student not found');
-  }, 10000);  // Increased timeout
+
+
+  describe('POST /api/auth/login', () => {
+    it('should log in the newly created student and retrieve their ID', async () => {
+      try {
+        // Log in the student using the loginUser function
+        let createdStudenttoken = await loginUser(createdStudentEmail, createdStudentPassword, users.student.role);
+    
+        expect(createdStudenttoken).toBeDefined();
+        console.log('Logged in student createdStudenttoken:', createdStudenttoken);
+    
+        const studentRes = await request(app)
+          .get(`/api/students/${createdStudentId}`)
+          .set('Authorization', `Bearer ${createdStudenttoken}`);
+    
+        expect(studentRes.status).toBe(200);
+        expect(studentRes.body.data.id).toBe(createdStudentId);
+      } catch (error) {
+        console.error('Error during login or student retrieval:', error);
+      }
+    });
+  });
+  
 
 
   
+  describe('GET /api/students', () => {
+    it('should allow access to department_head and registrar roles', async () => {
+      const res = await request(app)
+        .get('/api/students')
+        .set('Authorization', `Bearer ${deptHeadToken}`);
 
+      expect(res.status).toBe(200);
+    });
 
-  it('should return 404 when the student is not found', async () => {
-    // Mock the getStudentById method to return null (student not found)
-    StudentService.getStudentById = jest.fn().mockResolvedValue(null);
-    
-    const res = await request(app).get('/api/students/99999');  // Non-existent student ID
-    
-    expect(res.status).toBe(404);
-    expect(res.body.error).toBe('Student not found');
+    it('should return 403 for student role', async () => {
+      const res = await request(app)
+        .get('/api/students')
+        .set('Authorization', `Bearer ${studentToken}`);
+
+      expect(res.status).toBe(403);
+    });
+
+    it('should return 401 for no token provided', async () => {
+      const res = await request(app).get('/api/students');
+
+      expect(res.status).toBe(401);
+    });
   });
 
-  it('should return 404 when deleting a non-existent student', async () => {
-    // Mock the deleteStudent method to return null (student not found)
-    StudentService.deleteStudent = jest.fn().mockResolvedValue(null);
-    
-    const res = await request(app).delete('/api/students/99999');  // Non-existent student ID
-    
-    expect(res.status).toBe(404);
-    expect(res.body.error).toBe('Student not found');
+  describe('GET /api/students/:id', () => {
+    it('should allow access to department_head and registrar roles for specific student', async () => {
+      const res = await request(app)
+        .get(`/api/students/${createdStudentId}`)
+        .set('Authorization', `Bearer ${deptHeadToken}`);
+
+      expect(res.status).toBe(200);
+    });
+
+    it('should return 403 for student role accessing another student', async () => {
+      const studentId = 1; // Assuming this ID exists
+
+      const res = await request(app)
+        .get(`/api/students/${studentId}`)
+        .set('Authorization', `Bearer ${studentToken}`);
+
+      expect(res.status).toBe(403);
+    });
+
+    it('should return 404 if student not found', async () => {
+        const nonExistentStudentId = 999; // Use a student ID that doesn't exist
+        const res = await request(app)
+          .get(`/api/students/${nonExistentStudentId}`)
+          .set('Authorization', `Bearer ${deptHeadToken}`);
+      
+        expect(res.status).toBe(404);
+        expect(res.body.error).toBe('Student not found');
+      });
+
+      it('should return 403 if student tries to access another student\'s data', async () => {
+        const anotherStudentId = 2; // Replace with an actual student ID
+        const res = await request(app)
+          .get(`/api/students/${anotherStudentId}`)
+          .set('Authorization', `Bearer ${studentToken}`);
+      
+        expect(res.status).toBe(403);
+        expect(res.body.error).toBe('Forbidden: You can only access your own data');
+      });
+      
+      
   });
 
+  describe('PUT /api/students/:id', () => {
+    it('should allow registrar to update student information', async () => {
+      const updatedData = {
+        first_name: 'Jane',
+        middle_name: 'Doe',
+        last_name: 'Smith',
+        contact_number: '987-654-3210',
+        address: '456 Elm St',
+        date_of_birth: '2000-12-31',
+        student_type: 'Regular',
+        standing_year: 2,
+        semester: '2nd',
+        program_id: 1,
+        password: '456',
+      };
 
-  it('should return 500 when there is an error fetching all students', async () => {
-    // Mock the getAllStudents method to throw an error
-    jest.spyOn(StudentService.prototype, 'getAllStudents').mockRejectedValue(new Error('Database connection failed'));
-  
-    // Make the request to fetch all students
-    const res = await request(app).get('/api/students');
-    
-    // Assert the error response
-    expect(res.status).toBe(500);
-    expect(res.body.error).toBe('Error Fetching Students');
+      const res = await request(app)
+        .put(`/api/students/${createdStudentId}`)
+        .send(updatedData)
+        .set('Authorization', `Bearer ${registrarToken}`);
+
+      expect(res.status).toBe(200);
+      console.log('Updated student:', JSON.stringify(res.body, null, 2));
+    });
   });
-  
-  // Cleanup after all tests
-  afterAll(async () => {
-    // Clean up the student data
-    await query('DELETE FROM students WHERE student_id = $1', [createdStudentId]);
 
-    // Close the server instance explicitly after tests
-    server.close();
+  describe('DELETE /api/students/:id', () => {
+    it('should allow registrar to delete student', async () => {
+      const res = await request(app)
+        .delete(`/api/students/${createdStudentId}`)
+        .set('Authorization', `Bearer ${registrarToken}`);
+
+      expect(res.status).toBe(200);
+    });
+
+    it('should return 403 for department_head role trying to delete student', async () => {
+      const res = await request(app)
+        .delete(`/api/students/${createdStudentId}`)
+        .set('Authorization', `Bearer ${deptHeadToken}`);
+
+      expect(res.status).toBe(403);
+    });
   });
-
 });

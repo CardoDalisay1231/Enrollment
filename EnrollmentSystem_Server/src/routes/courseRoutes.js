@@ -1,11 +1,13 @@
+// src/routes/courseRoutes.js
 import express from 'express';
 import {
-  getAllDepartmentHeads,
-  getDepartmentHeadById,
-  createDepartmentHead,
-  updateDepartmentHead,
-  deleteDepartmentHead,
-} from '../controllers/departmentHeadController.js';
+  getAllCourses,
+  getCourseById,
+  getCourseByCode,
+  createCourse,
+  updateCourse,
+  deleteCourse,
+} from '../controllers/courseController.js';
 import { protect, authorize } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
@@ -16,25 +18,25 @@ router.use(protect);
 /**
  * @swagger
  * tags:
- *   name: DepartmentHeads
- *   description: API for managing department heads
+ *   name: Courses
+ *   description: API for managing courses
  */
 
 /**
  * @swagger
- * /api/departmentheads:
+ * /api/courses:
  *   get:
- *     summary: Get all department heads
- *     tags: [DepartmentHeads]
+ *     summary: Get all courses
+ *     tags: [Courses]
  *     description: >
  *       **Roles Allowed:** `registrar`, `department_head`  
- *       Retrieve a list of all department heads.
+ *       Retrieve a list of all courses.
  *     security:
  *       - bearerAuth: []
  *     x-authorize: ['registrar', 'department_head']
  *     responses:
  *       200:
- *         description: A list of department heads
+ *         description: A list of courses
  *         content:
  *           application/json:
  *             schema:
@@ -49,47 +51,41 @@ router.use(protect);
  *                     properties:
  *                       id:
  *                         type: integer
- *                       first_name:
+ *                       course_code:
  *                         type: string
- *                       middle_name:
+ *                       course_title:
  *                         type: string
- *                       last_name:
- *                         type: string
- *                       email:
- *                         type: string
- *                       password:
- *                         type: string
- *                       program_id:
+ *                       credit_unit_lec:
+ *                         type: integer
+ *                       credit_unit_lab:
  *                         type: integer
  *                 example:
  *                   status: 200
  *                   data:
- *                     - id: 23
- *                       first_name: "dept"
- *                       middle_name: "dept"
- *                       last_name: "dept"
- *                       email: "dept.dept@cvsu.ph.com"
- *                       password: "$2b$10$paVtsQ8ONHAIsZfss3IoAehZLxBX1qLfSXOERanbvkPq6BIEE5gfO"
- *                       program_id: 1
+ *                     - id: 1
+ *                       course_code: "CS101"
+ *                       course_title: "Computer Science 101"
+ *                       credit_unit_lec: 3
+ *                       credit_unit_lab: 2
  *       401:
  *         description: Unauthorized
  */
-router.get('/', authorize('registrar'), getAllDepartmentHeads);
+router.get('/', authorize('registrar', 'department_head'), getAllCourses);
 
 /**
  * @swagger
- * /api/departmentheads/{id}:
+ * /api/courses/{id}:
  *   get:
- *     summary: Get a department head by ID
- *     tags: [DepartmentHeads]
+ *     summary: Get a course by ID
+ *     tags: [Courses]
  *     description: >
  *       **Roles Allowed:** `registrar`, `department_head`  
- *       Retrieve a specific department head by their ID.
+ *       Retrieve a specific course by its ID.
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: The department head ID
+ *         description: The course ID
  *         schema:
  *           type: integer
  *     security:
@@ -97,23 +93,23 @@ router.get('/', authorize('registrar'), getAllDepartmentHeads);
  *     x-authorize: ['registrar', 'department_head']
  *     responses:
  *       200:
- *         description: A department head object
+ *         description: A course object
  *       404:
- *         description: Department head not found
+ *         description: Course not found
  *       401:
  *         description: Unauthorized
  */
-router.get('/:id', authorize('registrar', 'department_head'), getDepartmentHeadById);
+router.get('/:id', authorize('registrar', 'department_head'), getCourseById);
 
 /**
  * @swagger
- * /api/departmentheads:
+ * /api/courses:
  *   post:
- *     summary: Create a new department head
- *     tags: [DepartmentHeads]
+ *     summary: Create a new course
+ *     tags: [Courses]
  *     description: >
  *       **Roles Allowed:** `registrar`  
- *       Add a new department head to the system.
+ *       Add a new course to the system.
  *     requestBody:
  *       required: true
  *       content:
@@ -121,46 +117,46 @@ router.get('/:id', authorize('registrar', 'department_head'), getDepartmentHeadB
  *           schema:
  *             type: object
  *             properties:
- *               first_name:
+ *               course_code:
  *                 type: string
- *               middle_name:
+ *               course_title:
  *                 type: string
- *               last_name:
- *                 type: string
- *               password:
- *                 type: string
+ *               credit_unit_lec:
+ *                 type: integer
+ *               credit_unit_lab:
+ *                 type: integer
  *             example:
- *               first_name: "dept"
- *               middle_name: "dept"
- *               last_name: "dept"
- *               password: "dept"
+ *               course_code: "CS101"
+ *               course_title: "Computer Science 101"
+ *               credit_unit_lec: 3
+ *               credit_unit_lab: 2
  *     security:
  *       - bearerAuth: []
  *     x-authorize: ['registrar']
  *     responses:
  *       201:
- *         description: Successfully created department head
+ *         description: Successfully created course
  *       400:
  *         description: Bad request
  *       401:
  *         description: Unauthorized
  */
-router.post('/', authorize('registrar'), createDepartmentHead);
+router.post('/', authorize('registrar'), createCourse);
 
 /**
  * @swagger
- * /api/departmentheads/{id}:
+ * /api/courses/{id}:
  *   put:
- *     summary: Update a department head by ID
- *     tags: [DepartmentHeads]
+ *     summary: Update a course by ID
+ *     tags: [Courses]
  *     description: >
  *       **Roles Allowed:** `registrar`, `department_head`  
- *       Update details of a specific department head.
+ *       Update details of a specific course.
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: The department head ID
+ *         description: The course ID
  *         schema:
  *           type: integer
  *     requestBody:
@@ -170,48 +166,48 @@ router.post('/', authorize('registrar'), createDepartmentHead);
  *           schema:
  *             type: object
  *             properties:
- *               first_name:
+ *               course_code:
  *                 type: string
- *               middle_name:
+ *               course_title:
  *                 type: string
- *               last_name:
- *                 type: string
- *               password:
- *                 type: string
+ *               credit_unit_lec:
+ *                 type: integer
+ *               credit_unit_lab:
+ *                 type: integer
  *             example:
- *               first_name: "dept"
- *               middle_name: "dept"
- *               last_name: "dept"
- *               password: "newpassword"
+ *               course_code: "CS101"
+ *               course_title: "Computer Science 102"
+ *               credit_unit_lec: 3
+ *               credit_unit_lab: 2
  *     security:
  *       - bearerAuth: []
  *     x-authorize: ['registrar', 'department_head']
  *     responses:
  *       200:
- *         description: Successfully updated department head
+ *         description: Successfully updated course
  *       400:
  *         description: Bad request
  *       404:
- *         description: Department head not found
+ *         description: Course not found
  *       401:
  *         description: Unauthorized
  */
-router.put('/:id', authorize('registrar', 'department_head'), updateDepartmentHead);
+router.put('/:id', authorize('registrar'), updateCourse);
 
 /**
  * @swagger
- * /api/departmentheads/{id}:
+ * /api/courses/{id}:
  *   delete:
- *     summary: Delete a department head by ID
- *     tags: [DepartmentHeads]
+ *     summary: Delete a course by ID
+ *     tags: [Courses]
  *     description: >
  *       **Roles Allowed:** `registrar`  
- *       Remove a department head from the system.
+ *       Remove a course from the system.
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: The department head ID
+ *         description: The course ID
  *         schema:
  *           type: integer
  *     security:
@@ -219,12 +215,12 @@ router.put('/:id', authorize('registrar', 'department_head'), updateDepartmentHe
  *     x-authorize: ['registrar']
  *     responses:
  *       200:
- *         description: Successfully deleted department head
+ *         description: Successfully deleted course
  *       404:
- *         description: Department head not found
+ *         description: Course not found
  *       401:
  *         description: Unauthorized
  */
-router.delete('/:id', authorize('registrar'), deleteDepartmentHead);
+router.delete('/:id', authorize('registrar',), deleteCourse);
 
 export default router;

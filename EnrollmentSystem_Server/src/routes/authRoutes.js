@@ -39,8 +39,9 @@ const router = express.Router();
  *                 description: |
  *                   **IMPORTANT**: The user's role determines their access level.
  *                   Choose one of the following roles:
- *                   - `department_head`: Admin access for department heads.
- *                   - `registrar`: Access to registrar functionality.
+ *                   - `department_head`: TODO Add table role access here.
+ *                   - `registrar`: TODO Add table role access here.
+ *                   - `student` : Read access to their own details
  *                 enum:
  *                   - department_head
  *                   - registrar

@@ -18,6 +18,7 @@ export class StudentRepository extends BaseRepository {
       first_name,
       middle_name,
       last_name,
+      email,
       contact_number,
       address,
       date_of_birth,
@@ -28,12 +29,16 @@ export class StudentRepository extends BaseRepository {
       program_id, // Include program_id
     } = studentData;
 
+    // If no email is provided, generate one
+    const generatedEmail = email || this.generateEmail(first_name, middle_name, last_name);
+
     const hashedPassword = await this.hashPassword(password);
 
     return super.create({
       first_name,
       middle_name,
       last_name,
+      email: generatedEmail,
       contact_number,
       address,
       date_of_birth,
@@ -45,40 +50,47 @@ export class StudentRepository extends BaseRepository {
     });
   }
 
-  // Override the update method to hash the password if it's provided
-  async update(id, studentData) {
-    const {
-      first_name,
-      middle_name,
-      last_name,
-      contact_number,
-      address,
-      date_of_birth,
-      student_type,
-      standing_year,
-      semester,
-      password,
-      program_id, // Include program_id
-    } = studentData;
+  // Override the update method to hash the password and generate an email if not provided
+async update(id, studentData) {
+  const {
+    first_name,
+    middle_name,
+    last_name,
+    email,
+    contact_number,
+    address,
+    date_of_birth,
+    student_type,
+    standing_year,
+    semester,
+    password,
+    program_id, // Include program_id
+  } = studentData;
 
-    const hashedPassword = password ? await this.hashPassword(password) : undefined;
+  // Generate an email if not provided
+  const generatedEmail = email || this.generateEmail(first_name, middle_name, last_name);
 
-    const dataToUpdate = {
-      first_name,
-      middle_name,
-      last_name,
-      contact_number,
-      address,
-      date_of_birth,
-      student_type,
-      standing_year,
-      semester,
-      ...(hashedPassword && { password: hashedPassword }),
-      ...(program_id && { program_id }), // Update program_id if provided
-    };
+  // Hash the password if provided
+  const hashedPassword = password ? await this.hashPassword(password) : undefined;
 
-    return super.update(id, dataToUpdate);
-  }
+  // Prepare data for update
+  const dataToUpdate = {
+    first_name,
+    middle_name,
+    last_name,
+    email: generatedEmail, // Use generated email if original is not provided
+    contact_number,
+    address,
+    date_of_birth,
+    student_type,
+    standing_year,
+    semester,
+    ...(hashedPassword && { password: hashedPassword }),
+    ...(program_id && { program_id }), // Update program_id if provided
+  };
+
+  return super.update(id, dataToUpdate);
+}
 
   // Retrieve all students
   async getAll() {

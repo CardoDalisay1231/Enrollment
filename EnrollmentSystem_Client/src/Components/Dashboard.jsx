@@ -6,29 +6,29 @@ import { Link } from "react-router-dom";
 export default function Dashboard() {
   return (
     <div className="containers">
-      <Navbar collapseOnSelect expand="lg" className="desktop-nav fixed-top">
-        <Container>
-          <Navbar className="nav-name">Enrollment System</Navbar>
-          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-          <Navbar.Collapse id="responsive-navbar-nav" className="hamburger">
-            <Nav className="me-auto"></Nav>
-            <Nav className="navigation">
-              <Nav.Link className="navigation" href="#profile">
-                Home
-              </Nav.Link>
-              <Nav.Link className="navigation" href="#about">
-                About
-              </Nav.Link>
-              <Nav.Link className="navigation" href="#Course">
-                Courses
-              </Nav.Link>
-              <Nav.Link className="navigation" href="#Course">
-                Admission
-              </Nav.Link>
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
+       <Navbar collapseOnSelect expand="lg" className="desktop-nav fixed-top">
+      <Container>
+        <Navbar.Brand className="nav-name">Enrollment System</Navbar.Brand>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav" className="hamburger">
+          <Nav className="me-auto"></Nav>
+          <Nav className="navigation">
+            <Nav.Link className="navigation" href="#profile">Home</Nav.Link>
+            <Nav.Link className="navigation" href="#about">About</Nav.Link>
+            <Nav.Link className="navigation" href="#Course">Courses</Nav.Link>
+            <Nav.Link className="navigation" href="#Course">Admission</Nav.Link>
+            <Nav.Link
+              as={Link}
+              to="/login"
+              className="navigation btn btn-success ms-5 "
+            >
+              Login
+            </Nav.Link>
+
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
 
       <section id="profile">
         <div className="section__text">
@@ -127,7 +127,7 @@ export default function Dashboard() {
                   />
                 </h3>
                 <br />
-                <p>CvSU-Bacoor: Information Technology Society </p>
+                <p>CvSU-Bacoor: Information Technology Society</p>
               </div>
             </div>
           </div>

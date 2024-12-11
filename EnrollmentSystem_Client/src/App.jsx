@@ -6,18 +6,26 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import Login from './Components/Login';
 import Register from './Components/Register';
-import RegFormCSReg from "./Components/RegForm_cs_reg";
-import RegFormCSIrreg from "./Components/RegForm_cs_ireg";
-import RegFormITReg from "./Components/RegForm_it_reg";
-import RegFormITIrreg from "./Components/RegForm_it_ireg";
-import RegFormPt2CSReg from "./Components/RegFormPt2_cs_reg";
-import RegFormPt2CSIrreg from "./Components/RegFormPt2_cs_ireg";
-import RegFormPt2ITReg from "./Components/RegFormPt2_it_reg";
-import RegFormPt2ITIrreg from "./Components/RegFormPt2_it_ireg";
+import RegisterStudent from './Components/RegisterStudent';
+import StudentPortal from './Components/StudentPortal';
 import RegistrarDashboard from './Components/RegistrarDashboard'; 
-import RegistrarStudent from './Components/RegistrarStudent'; // Import the component
+import RegistrarStudent from './Components/RegistrarStudent'; 
 import Dashboard from './Components/Dashboard';
 import Admission from './Components/Admission';
+import PreEnrollmentSubmit from './Components/PreEnrollmentSubmit';
+ {/* Reg/Ireg Forms */}
+import RegFormCSReg from "./Components/RegForm/RegForm_cs_reg";
+import RegFormCSIrreg from "./Components/RegForm/RegForm_cs_ireg";
+import RegFormITReg from "./Components/RegForm/RegForm_it_reg";
+import RegFormITIrreg from "./Components/RegForm/RegForm_it_ireg";
+import RegFormPt2CSReg from "./Components/RegForm/RegFormPt2_cs_reg";
+import RegFormPt2CSIrreg from "./Components/RegForm/RegFormPt2_cs_ireg";
+import RegFormPt2ITReg from "./Components/RegForm/RegFormPt2_it_reg";
+import RegFormPt2ITIrreg from "./Components/RegForm/RegFormPt2_it_ireg";
+import RegForm_cs_Trans from './Components/RegForm/RegForm_cs_Trans';
+import RegForm_it_Trans from './Components/RegForm/RegForm_it_Trans';
+import RegFormPt2_cs_Trans from './Components/RegForm/RegFormPt2_cs_Trans';
+import RegFormPt2_it_Trans from './Components/RegForm/RegFormPt2_it_Trans';
  {/* shs grad forms */}
 import FormPage1 from './Components/AdmissionShsGrad/FormPage1'; 
 import FormPage2 from './Components/AdmissionShsGrad/FormPage2'; 
@@ -56,18 +64,26 @@ function App() {
         <Route path="/" element={<Dashboard />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/registerstud" element={<RegisterStudent />} />
+        <Route path="/portal" element={<StudentPortal/>} />
         <Route path="/dashboard" element={<RegistrarDashboard />} />
         <Route path="/dashboard/students" element={<RegistrarStudent />} /> 
         <Route path="/admission" element={<Admission />} />
+        <Route path="/submitted" element={<PreEnrollmentSubmit />} />
         {/* Reg/Ireg Forms */}
         <Route path="/regform-comp_sci-regular" element={<RegFormCSReg />} />
         <Route path="/regform-comp_sci-irreg" element={<RegFormCSIrreg />} />
+        <Route path="/regform-comp_sci-transferee" element={<RegForm_cs_Trans />} />
         <Route path="/regform-info_tech-regular" element={<RegFormITReg />} />
         <Route path="/regform-info_tech-irreg" element={<RegFormITIrreg />} />
+        <Route path="/regform-info_tech-transferee" element={<RegForm_it_Trans />} />
         <Route path="/regformpt2-comp_sci-regular" element={<RegFormPt2CSReg />} />
         <Route path="/regformpt2-comp_sci-irreg" element={<RegFormPt2CSIrreg />} />
+        <Route path="/regformpt2-comp_sci-transferee" element={<RegFormPt2_cs_Trans/>} />
         <Route path="/regformpt2-info_tech-regular" element={<RegFormPt2ITReg />} />
         <Route path="/regformpt2-info_tech-irreg" element={<RegFormPt2ITIrreg />} />
+        <Route path="/regformpt2-info_tech-transferee" element={<RegFormPt2_it_Trans />} />
+        
         {/* shs grad forms */}
         <Route path="/form1" element={<FormPage1 />} />
         <Route path="/form2" element={<FormPage2 />} />
