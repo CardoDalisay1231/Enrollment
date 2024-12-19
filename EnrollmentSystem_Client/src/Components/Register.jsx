@@ -53,8 +53,8 @@ export default function Register() {
               <option value="" disabled selected>
                 Year Level
               </option>
-              <option value="one-1">1rst Year - 1rst Semester</option>
-              <option value="one-2">1rst Year - 2nd Semester</option>
+              <option value="one-1">1st Year - 1st Semester</option>
+              <option value="one-2">1st Year - 2nd Semester</option>
               <option value="two-1">2nd Year - 1st Semester</option>
               <option value="two-2">2nd Year - 2nd Semester</option>
               <option value="three-1">3rd Year - 1st Semester</option>

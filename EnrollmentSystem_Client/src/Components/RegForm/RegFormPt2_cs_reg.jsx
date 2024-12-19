@@ -7,6 +7,16 @@ export default function RegFormPt2_cs_reg() {
   const navigate = useNavigate();
   const { yearLevel, department } = location.state;
   const [imagePreviews, setImagePreviews] = useState({});
+  const [suffix, setSuffix] = useState("");
+  const [disableSuffix, setDisableSuffix] = useState(false);
+
+  const handleSuffixToggle = () => {
+    setDisableSuffix(!disableSuffix);
+    if (!disableSuffix) {
+      // If we are disabling the suffix field, clear it
+      setSuffix("");
+    }
+  };
   // Handle file change and preview
   const handleFileChange = (e, key) => {
     const file = e.target.files[0];
@@ -269,7 +279,10 @@ export default function RegFormPt2_cs_reg() {
             }}
           ></div>
 
-          <div className="card-body position-relative pb-5" style={{ zIndex: 2 }}>
+          <div
+            className="card-body position-relative pb-5"
+            style={{ zIndex: 2 }}
+          >
             <div className="row mb-4">
               <div className="col-12 text-center">
                 <h4 className="fw-bold">REGULAR FORM</h4>
@@ -277,10 +290,52 @@ export default function RegFormPt2_cs_reg() {
             </div>
 
             {/* Student Info Section */}
+
             <div className="row mb-3 g-3">
+              <div className="row g-2">
+                <div className="col-md-3">
+                  <label className="form-label">Last Name</label>
+                  <input type="text" className="form-control" />
+                </div>
+                <div className="col-md-3">
+                  <label className="form-label">First Name</label>
+                  <input type="text" className="form-control" />
+                </div>
+                <div className="col-md-3">
+                  <label className="form-label">Middle Name</label>
+                  <input type="text" className="form-control" />
+                </div>
+                <div className="col-md-3">
+                  <label className="form-label">Suffix</label>
+                  <div className="input-group">
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={suffix}
+                      onChange={(e) => setSuffix(e.target.value)}
+                      disabled={disableSuffix}
+                    />
+                    <span
+                      className="input-group-text"
+                      onClick={handleSuffixToggle}
+                      style={{ cursor: "pointer" }}
+                    >
+                      {disableSuffix ? (
+                        <i className="fa fa-lock"></i>
+                      ) : (
+                        <i className="fa fa-unlock"></i>
+                      )}
+                    </span>
+                  </div>
+                </div>      
+              </div>
               <div className="col-md-4">
                 <label className="form-label">Student No.:</label>
-                <input type="text" className="form-control" placeholder="Student No." />
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Student No."
+                />
               </div>
               <div className="col-md-4">
                 <label className="form-label">Course:</label>
@@ -294,7 +349,11 @@ export default function RegFormPt2_cs_reg() {
               </div>
               <div className="col-md-4">
                 <label className="form-label">Academic Year:</label>
-                <input type="text" className="form-control" placeholder="Academic Year" />
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Academic Year"
+                />
               </div>
             </div>
 
@@ -338,8 +397,8 @@ export default function RegFormPt2_cs_reg() {
               </table>
             </div>
 
-           {/* Upload Section */}
-           <div className="row mb-4">
+            {/* Upload Section */}
+            <div className="row mb-4">
               <div className="col-12">
                 <h5>Upload Documents</h5>
                 <div className="d-flex flex-wrap gap-3">
@@ -347,8 +406,9 @@ export default function RegFormPt2_cs_reg() {
                   <div>{renderUploadBox("cog", "Upload COG")}</div>
 
                   {/* E-Signature Upload */}
-                  <div>{renderUploadBox("esignature", "Upload E-Signature")}</div>
-                  
+                  <div>
+                    {renderUploadBox("esignature", "Upload E-Signature")}
+                  </div>
                 </div>
               </div>
             </div>
@@ -361,7 +421,7 @@ export default function RegFormPt2_cs_reg() {
                 Submit
               </button>
             </div>
-          </div>  
+          </div>
         </div>
       </div>
     </div>

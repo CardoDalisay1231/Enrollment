@@ -134,7 +134,7 @@ export default function RegisterStudent() {
               <label className="form-label">Gender:</label>
               <select className="form-select">
                 <option value="" disabled selected>
-                  Select Gender
+                  Gender by Birth
                 </option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>

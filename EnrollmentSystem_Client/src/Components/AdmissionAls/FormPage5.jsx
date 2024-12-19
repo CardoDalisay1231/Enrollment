@@ -182,13 +182,15 @@ export default function FormPage5() {
               }}
             />
           </div>
-
+          /admisubmit
           {/* Navigation Buttons */}
           <div className="d-flex justify-content-between mt-4">
             <Link to="/formAls5">
               <button className="btn btn-success">Back Page</button>
             </Link>
+            <Link to="/admisubmit">
             <button type="submit" className="btn btn-success">Submit Application</button>
+            </Link>
           </div>
         </div>
       </div>

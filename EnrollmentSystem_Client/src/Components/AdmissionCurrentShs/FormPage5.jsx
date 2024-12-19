@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function FormPage5() {
@@ -68,9 +68,7 @@ export default function FormPage5() {
                 margin: "0 10px", // Adds space between badges and line
               }}
             ></div>
-            <div className="badge bg-success text-white p-3">
-              Requirements
-            </div>
+            <div className="badge bg-success text-white p-3">Requirements</div>
             <div
               style={{
                 flex: 1,
@@ -188,7 +186,11 @@ export default function FormPage5() {
             <Link to="/formcurnt4">
               <button className="btn btn-success">Back Page</button>
             </Link>
-            <button type="submit" className="btn btn-success">Submit Application</button>
+            <Link to="/admisubmit">
+              <button type="submit" className="btn btn-success">
+                Submit Application
+              </button>
+            </Link>
           </div>
         </div>
       </div>

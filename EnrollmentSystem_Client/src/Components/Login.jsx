@@ -12,26 +12,28 @@ export default function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
+  
     try {
       const response = await axios.post("http://localhost:3000/api/auth/login", {
         email,
         password,
         role,
       });
-
+  
       // Save token and user info
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("user", JSON.stringify(response.data.user));
-
+  
       setSuccess(true);
       setError(null);
-
-      // Redirect to Student Portal (assuming student's role and route is /studentportal)
+  
+      // Redirect based on role
       if (role === "student") {
         navigate("/portal");
+      } else if (role === "department_head") {
+        navigate("/admin");
       } else {
-        // If other roles have different dashboards:
+        // For other roles, default to dashboard
         navigate("/dashboard");
       }
     } catch (err) {
@@ -39,6 +41,7 @@ export default function Login() {
       setSuccess(false);
     }
   };
+  
 
   return (
     <div className="containers">

@@ -8,11 +8,13 @@ import Login from './Components/Login';
 import Register from './Components/Register';
 import RegisterStudent from './Components/RegisterStudent';
 import StudentPortal from './Components/StudentPortal';
-import RegistrarDashboard from './Components/RegistrarDashboard'; 
-import RegistrarStudent from './Components/RegistrarStudent'; 
+import RegistrarDashboard from './Components/Registrar/RegistrarDashboard'; 
+import RegistrarStudent from './Components/Registrar/RegistrarStudent'; 
 import Dashboard from './Components/Dashboard';
 import Admission from './Components/Admission';
 import PreEnrollmentSubmit from './Components/PreEnrollmentSubmit';
+import AdmissionSubmit from './Components/AdmissionSubmit';
+import AdminDashboard from './Components/Admin/AdminDashboard';
  {/* Reg/Ireg Forms */}
 import RegFormCSReg from "./Components/RegForm/RegForm_cs_reg";
 import RegFormCSIrreg from "./Components/RegForm/RegForm_cs_ireg";
@@ -70,6 +72,8 @@ function App() {
         <Route path="/dashboard/students" element={<RegistrarStudent />} /> 
         <Route path="/admission" element={<Admission />} />
         <Route path="/submitted" element={<PreEnrollmentSubmit />} />
+        <Route path="/admisubmit" element={<AdmissionSubmit />} />
+        <Route path="/admin" element={<AdminDashboard />} />
         {/* Reg/Ireg Forms */}
         <Route path="/regform-comp_sci-regular" element={<RegFormCSReg />} />
         <Route path="/regform-comp_sci-irreg" element={<RegFormCSIrreg />} />
