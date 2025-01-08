@@ -15,6 +15,9 @@ import Admission from './Components/Admission';
 import PreEnrollmentSubmit from './Components/PreEnrollmentSubmit';
 import AdmissionSubmit from './Components/AdmissionSubmit';
 import AdminDashboard from './Components/Admin/AdminDashboard';
+import AdminAplicants from './Components/Admin/AdminAplicants';
+import AdminEnrollees from './Components/Admin/AdminEnrollees';
+import AdminResponses from './Components/Admin/AdminResponses';
  {/* Reg/Ireg Forms */}
 import RegFormCSReg from "./Components/RegForm/RegForm_cs_reg";
 import RegFormCSIrreg from "./Components/RegForm/RegForm_cs_ireg";
@@ -74,6 +77,9 @@ function App() {
         <Route path="/submitted" element={<PreEnrollmentSubmit />} />
         <Route path="/admisubmit" element={<AdmissionSubmit />} />
         <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/admin/students" element={<AdminAplicants />} />
+        <Route path="/admin/enrollees" element={<AdminEnrollees />} />
+        <Route path="/admin/responses" element={<AdminResponses />} />
         {/* Reg/Ireg Forms */}
         <Route path="/regform-comp_sci-regular" element={<RegFormCSReg />} />
         <Route path="/regform-comp_sci-irreg" element={<RegFormCSIrreg />} />

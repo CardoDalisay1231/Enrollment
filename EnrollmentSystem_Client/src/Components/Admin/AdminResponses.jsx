@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-export default function AdminDashboard() {
+export default function AdminResponses() {
   const [isOpen, setIsOpen] = useState(false);
   const [students, setStudents] = useState([]);
+  const [filteredStudents, setFilteredStudents] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [error, setError] = useState(null);
 
   const toggleSidebar = () => {
@@ -25,17 +27,14 @@ export default function AdminDashboard() {
   // Fetch students function
   const fetchStudents = async () => {
     try {
-      // Retrieve the token from localStorage
       const token = localStorage.getItem("token");
-
-      // Make the request with the token in the Authorization header
       const response = await axios.get("http://localhost:3000/api/students", {
         headers: {
-          Authorization: `Bearer ${token}`, // Attach token to the request
+          Authorization: `Bearer ${token}`,
         },
       });
-
-      setStudents(response.data.data); // Update the state with fetched students
+      setStudents(response.data.data);
+      setFilteredStudents(response.data.data); // Initialize filtered list
       setError(null);
     } catch (err) {
       console.error("Error fetching students:", err);
@@ -43,25 +42,25 @@ export default function AdminDashboard() {
     }
   };
 
-  // Use effect to fetch data on component mount
   useEffect(() => {
     fetchStudents();
   }, []);
 
-  // Calculate the number of enrolled students dynamically
-  const totalStudents = students.length;
-  const enrolledStudents = students.length; // Assuming all students are enrolled; adjust logic as needed
-  const courses = 2; // Static count for courses
+  // Handle search input change
+  const handleSearchChange = (e) => {
+    const query = e.target.value.toLowerCase();
+    setSearchQuery(query);
+    const filtered = students.filter((student) =>
+      `${student.first_name} ${student.last_name}`.toLowerCase().includes(query)
+    );
+    setFilteredStudents(filtered);
+  };
 
   return (
     <div>
       {/* Header */}
       <header className="header">
-        <img
-          src="./images/cvsu-logo.png"
-          alt="University Logo"
-          className="logo"
-        />
+        <img src="./images/cvsu-logo.png" alt="University Logo" className="logo" />
         <p>
           CAVITE STATE UNIVERSITY <br /> BACOOR CAMPUS
         </p>
@@ -95,6 +94,7 @@ export default function AdminDashboard() {
 
       {/* Main Content */}
       <main className="main-content">
+      <h2 className="mb-4">Responses of Applicants Registration Forms</h2>
         {/* Error Message */}
         {error && (
           <div className="alert alert-danger text-center" role="alert">
@@ -102,36 +102,22 @@ export default function AdminDashboard() {
           </div>
         )}
 
-        {/* Counters Section */}
-        <section className="row g-4">
-          <div className="col-md-4">
-            <div className="card text-white bg-primary text-center">
-              <div className="card-body">
-                <h1>{enrolledStudents}</h1>
-                <p>ENROLLED</p>
-              </div>
-            </div>
+        {/* Search Bar */}
+        <div className="row mb-4">
+          <div className="col">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Search students by name"
+              value={searchQuery}
+              onChange={handleSearchChange}
+            />
           </div>
-          <div className="col-md-4">
-            <div className="card text-white bg-info text-center">
-              <div className="card-body">
-                <h1>{courses}</h1>
-                <p>COURSES</p>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-4">
-            <div className="card text-white bg-warning text-center">
-              <div className="card-body">
-                <h1>{totalStudents}</h1>
-                <p>TOTAL STUDENTS</p>
-              </div>
-            </div>
-          </div>
-        </section>
+        </div>
 
         {/* Table Section */}
-        <section className="row mt-4">
+        <section className="row">
+            
           <div className="col-12">
             <div className="card">
               <div className="card-body p-0">
@@ -146,8 +132,8 @@ export default function AdminDashboard() {
                     </tr>
                   </thead>
                   <tbody>
-                    {students.length > 0 ? (
-                      students.map((student) => (
+                    {filteredStudents.length > 0 ? (
+                      filteredStudents.map((student) => (
                         <tr key={student.id}>
                           <td>{student.id}</td>
                           <td>{student.first_name}</td>
@@ -159,7 +145,7 @@ export default function AdminDashboard() {
                     ) : (
                       <tr>
                         <td colSpan="5" className="text-center">
-                          No students available.
+                          No students found.
                         </td>
                       </tr>
                     )}
