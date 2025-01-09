@@ -14,6 +14,8 @@ import Dashboard from './Components/Dashboard';
 import Admission from './Components/Admission';
 import PreEnrollmentSubmit from './Components/PreEnrollmentSubmit';
 import AdmissionSubmit from './Components/AdmissionSubmit';
+import SOCDashboard from './Components/SOC Officer/SOCDashboard';
+import SOCStudVerified from './Components/SOC Officer/SOCStudVerified';
 import AdminDashboard from './Components/Admin/AdminDashboard';
 import AdminAplicants from './Components/Admin/AdminAplicants';
 import AdminEnrollees from './Components/Admin/AdminEnrollees';
@@ -76,6 +78,8 @@ function App() {
         <Route path="/admission" element={<Admission />} />
         <Route path="/submitted" element={<PreEnrollmentSubmit />} />
         <Route path="/admisubmit" element={<AdmissionSubmit />} />
+        <Route path="/SOC" element={<SOCDashboard />} />
+        <Route path="/SOC/verstud" element={<SOCStudVerified/>} />
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin/students" element={<AdminAplicants />} />
         <Route path="/admin/enrollees" element={<AdminEnrollees />} />
