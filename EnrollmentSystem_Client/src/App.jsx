@@ -10,6 +10,9 @@ import RegisterStudent from './Components/RegisterStudent';
 import StudentPortal from './Components/StudentPortal';
 import RegistrarDashboard from './Components/Registrar/RegistrarDashboard'; 
 import RegistrarStudent from './Components/Registrar/RegistrarStudent'; 
+import RegistrarMasterlist from './Components/Registrar/RegistrarMasterlist';
+import RegistrarChecklist from './Components/Registrar/RegistrarChecklist';
+import RegistrarPrint from './Components/Registrar/RegistrarPrint';
 import Dashboard from './Components/Dashboard';
 import Admission from './Components/Admission';
 import PreEnrollmentSubmit from './Components/PreEnrollmentSubmit';
@@ -75,6 +78,9 @@ function App() {
         <Route path="/portal" element={<StudentPortal/>} />
         <Route path="/dashboard" element={<RegistrarDashboard />} />
         <Route path="/dashboard/students" element={<RegistrarStudent />} /> 
+        <Route path="/dashboard/masterlist" element={<RegistrarMasterlist />} /> 
+        <Route path="/dashboard/checklist" element={<RegistrarChecklist />} /> 
+        <Route path="/dashboard/print" element={<RegistrarPrint />} /> 
         <Route path="/admission" element={<Admission />} />
         <Route path="/submitted" element={<PreEnrollmentSubmit />} />
         <Route path="/admisubmit" element={<AdmissionSubmit />} />

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
-import { saveAs } from 'file-saver';
+import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
+import { saveAs } from "file-saver";
 
 export default function RegistrarStudent() {
   const generatePDF = async (student) => {
@@ -13,8 +13,10 @@ export default function RegistrarStudent() {
 
     try {
       // Load the existing PDF template
-      const url = '/RegistrationCertificate.pdf'; // The PDF in public folder
-      const existingPdfBytes = await fetch(url).then(res => res.arrayBuffer());
+      const url = "/RegistrationCertificate.pdf"; // The PDF in public folder
+      const existingPdfBytes = await fetch(url).then((res) =>
+        res.arrayBuffer()
+      );
 
       // Load a PDFDocument from the existing PDF bytes
       const pdfDoc = await PDFDocument.load(existingPdfBytes);
@@ -23,7 +25,6 @@ export default function RegistrarStudent() {
       const pages = pdfDoc.getPages();
       const firstPage = pages[0];
 
-      
       // For a page 792 x 612, top area is around y=600 and we go downwards.
 
       // Embed a standard font
@@ -32,11 +33,11 @@ export default function RegistrarStudent() {
       // Draw the student's name near the "Name" field
       // Adjust these coordinates so the text aligns with the printed "Name" label on your template
       firstPage.drawText(`${student.first_name} ${student.last_name}`, {
-        x: 75,     // Move horizontally to right of the "Name" label
-        y: 508,     // Slightly below top area; adjust if needed
+        x: 75, // Move horizontally to right of the "Name" label
+        y: 508, // Slightly below top area; adjust if needed
         size: 12,
         font,
-        color: rgb(0.196, 0.804, 0.196)
+        color: rgb(0.196, 0.804, 0.196),
       });
 
       // Draw the Student Number near the "Student Number" field
@@ -45,7 +46,7 @@ export default function RegistrarStudent() {
         y: 490,
         size: 12,
         font,
-        color: rgb(0.196, 0.804, 0.196)
+        color: rgb(0.196, 0.804, 0.196),
       });
 
       // Address (Position it in the address field section)
@@ -55,8 +56,7 @@ export default function RegistrarStudent() {
         y: 425,
         size: 10,
         font,
-        color: rgb(0.196, 0.804, 0.196)
-
+        color: rgb(0.196, 0.804, 0.196),
       });
 
       // Contact number near the contact field (on the right side table)
@@ -66,16 +66,15 @@ export default function RegistrarStudent() {
         y: 425,
         size: 12,
         font,
-        color: rgb(0.196, 0.804, 0.196)
+        color: rgb(0.196, 0.804, 0.196),
       });
 
       // After editing, save the PDF
       const pdfBytes = await pdfDoc.save();
 
       // Use FileSaver to trigger a download in the browser
-      const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+      const blob = new Blob([pdfBytes], { type: "application/pdf" });
       saveAs(blob, `COR_${student.first_name}_${student.last_name}.pdf`);
-
     } catch (error) {
       console.error("Error generating PDF:", error);
     }
@@ -142,6 +141,29 @@ export default function RegistrarStudent() {
     fetchStudents();
   }, []);
 
+  // Handle "Delete" button click
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this student?")) {
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+      await axios.delete(`http://localhost:3000/api/students/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      // Remove the deleted student from the state
+      setStudents((prevStudents) =>
+        prevStudents.filter((student) => student.id !== id)
+      );
+      alert("Student deleted successfully!");
+    } catch (err) {
+      console.error("Error deleting student:", err);
+      alert(err.response?.data?.message || "Failed to delete student");
+    }
+  };
+
   return (
     <div>
       {/* Header */}
@@ -171,6 +193,12 @@ export default function RegistrarStudent() {
           <Link to="/dashboard/masterlist" className="nav-link">
             <i className="fas fa-list-alt"></i> Masterlist
           </Link>
+          <Link to="/dashboard/checklist" className="nav-link">
+            <i className="fas fa-tasks"></i> Checklist
+          </Link>
+          <Link to="/dashboard/print" className="nav-link">
+            <i className="fas fa-print"></i> Printing
+          </Link>
         </nav>
       </aside>
 
@@ -191,39 +219,47 @@ export default function RegistrarStudent() {
             </div>
             <div className="card-body">
               {students.length > 0 ? (
-                <table className="table table-striped table-hover">
-                  <thead className="table-dark">
-                    <tr>
-                      <th>ID</th>
-                      <th>First Name</th>
-                      <th>Last Name</th>
-                      <th>Student Type</th>
-                      <th>Course</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {students.map((student) => (
-                      <tr key={student.id}>
-                        <td>{student.id}</td>
-                        <td>{student.first_name}</td>
-                        <td>{student.last_name}</td>
-                        <td>{student.student_type}</td>
-                        <td>{student.program_id}</td>
-                        <td>
-                          <button
-                            className="btn btn-primary btn-sm me-2"
-                            data-bs-toggle="modal"
-                            data-bs-target="#studentModal"
-                            onClick={() => handleViewClick(student.id)}
-                          >
-                            View
-                          </button>
-                        </td>
+                <div className="table-responsive">
+                  <table className="table table-striped table-hover">
+                    <thead className="table-dark">
+                      <tr>
+                        <th>ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Student Type</th>
+                        <th>Course</th>
+                        <th>Actions</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {students.map((student) => (
+                        <tr key={student.id}>
+                          <td>{student.id}</td>
+                          <td>{student.first_name}</td>
+                          <td>{student.last_name}</td>
+                          <td>{student.student_type}</td>
+                          <td>{student.program_id}</td>
+                          <td>
+                            <button
+                              className="btn btn-primary btn-sm me-2"
+                              data-bs-toggle="modal"
+                              data-bs-target="#studentModal"
+                              onClick={() => handleViewClick(student.id)}
+                            >
+                              View
+                            </button>
+                            <button
+                              className="btn btn-danger btn-sm"
+                              onClick={() => handleDelete(student.id)}
+                            >
+                              Delete
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               ) : (
                 <p className="text-center">No students available.</p>
               )}
@@ -276,7 +312,8 @@ export default function RegistrarStudent() {
                       {selectedStudent.date_of_birth}
                     </p>
                     <p>
-                      <strong>Student Type:</strong> {selectedStudent.student_type}
+                      <strong>Student Type:</strong>{" "}
+                      {selectedStudent.student_type}
                     </p>
                     <p>
                       <strong>Standing Year:</strong>{" "}
